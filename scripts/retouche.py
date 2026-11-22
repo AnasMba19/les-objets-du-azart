@@ -73,6 +73,26 @@ def vignette(img, force=0.28):
     masque = masque.filter(ImageFilter.GaussianBlur(min(w, h) // 5))
     return Image.composite(img, ImageEnhance.Brightness(img).enhance(1 - force), masque)
 
+def apercu(it, liste):
+    """Planche des 8 premiers candidats, pour choisir le rang."""
+    from PIL import ImageDraw
+    W = 360
+    planche = Image.new("RGB", (4 * W, 2 * (W + 26)), (20, 20, 20))
+    d = ImageDraw.Draw(planche)
+    for i, c in enumerate(liste[:8]):
+        try:
+            im = Image.open(io.BytesIO(get(c["url"].replace("/2000px-", "/400px-")))).convert("RGB")
+        except Exception:
+            continue
+        im.thumbnail((W, W))
+        x, y = (i % 4) * W, (i // 4) * (W + 26)
+        planche.paste(im, (x, y))
+        d.text((x + 6, y + W + 6), f"{i} {c['titre'][:40]}", fill=(230, 220, 200))
+    out = PUBLIC / "apercus" / (Path(it["out"]).stem + ".jpg")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    planche.save(out, quality=80)
+    log(f"apercu {out.name} ({len(liste)} candidats)")
+
 def main():
     items = json.loads((ROOT / "scripts" / "images.json").read_text())
     credits = json.loads(CREDITS.read_text()) if CREDITS.exists() else []
@@ -86,6 +106,9 @@ def main():
             liste = list(candidats(it["recherche"]))
         except Exception as e:
             log(f"ECHEC recherche {it['recherche']}: {e}")
+            continue
+        if it.get("apercu"):
+            apercu(it, liste)
             continue
         if len(liste) <= it.get("rang", 0):
             log(f"AUCUN resultat pour {it['recherche']} ({len(liste)})")

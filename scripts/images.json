@@ -7,11 +7,12 @@
   "sujet": "Interieur de brocante"
  },
  {
-  "recherche": "crystal chandelier",
+  "recherche": "antique chandelier crystal brass",
   "rang": 0,
   "out": "images/objets/lustre-pampilles-laiton.webp",
   "ratio": "1:1",
-  "sujet": "Lustre ancien a pampilles"
+  "sujet": "Lustre ancien a pampilles",
+  "apercu": true
  },
  {
   "recherche": "antique writing desk",
@@ -21,11 +22,12 @@
   "sujet": "Bureau ancien et sa chaise"
  },
  {
-  "recherche": "gilded mirror",
+  "recherche": "antique mirror gilt frame",
   "rang": 0,
   "out": "images/objets/miroir-dore.webp",
   "ratio": "1:1",
-  "sujet": "Miroir dore sculpte"
+  "sujet": "Miroir dore sculpte",
+  "apercu": true
  },
  {
   "recherche": "porcelain tea set",
@@ -42,11 +44,12 @@
   "sujet": "Fauteuil anglais"
  },
  {
-  "recherche": "vintage leather suitcase",
+  "recherche": "old leather suitcase",
   "rang": 0,
   "out": "images/objets/valise-cuir.webp",
   "ratio": "1:1",
-  "sujet": "Valise en cuir"
+  "sujet": "Valise en cuir",
+  "apercu": true
  },
  {
   "recherche": "porcelain teapot",
@@ -77,25 +80,28 @@
   "sujet": "Lampe et abat-jour"
  },
  {
-  "recherche": "handmade ceramic bowl",
+  "recherche": "handmade pottery bowl glaze",
   "rang": 0,
   "out": "images/objets/coupelle-ceramique.webp",
   "ratio": "1:1",
-  "sujet": "Coupelle en ceramique"
+  "sujet": "Coupelle en ceramique",
+  "apercu": true
  },
  {
-  "recherche": "vintage dresses",
+  "recherche": "vintage dress shop",
   "rang": 0,
   "out": "images/objets/robes-vintage.webp",
   "ratio": "1:1",
-  "sujet": "Robes vintage"
+  "sujet": "Robes vintage",
+  "apercu": true
  },
  {
-  "recherche": "leather handbag",
+  "recherche": "vintage handbag",
   "rang": 0,
   "out": "images/objets/sac-cuir.webp",
   "ratio": "1:1",
-  "sujet": "Sac en cuir"
+  "sujet": "Sac en cuir",
+  "apercu": true
  },
  {
   "recherche": "teapot on windowsill",
@@ -119,17 +125,19 @@
   "sujet": "Vetements vintage"
  },
  {
-  "recherche": "old suitcases",
+  "recherche": "vintage suitcases",
   "rang": 0,
   "out": "images/nous-chez-vous/valises.webp",
   "ratio": "4:3",
-  "sujet": "Valises anciennes"
+  "sujet": "Valises anciennes",
+  "apercu": true
  },
  {
-  "recherche": "flea market furniture",
+  "recherche": "brocante",
   "rang": 0,
   "out": "images/ambiance/brocante-rue.webp",
   "ratio": "4:3",
-  "sujet": "Mobilier de brocante"
+  "sujet": "Mobilier de brocante",
+  "apercu": true
  }
 ]
