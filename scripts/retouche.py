@@ -110,10 +110,15 @@ def main():
         if it.get("apercu"):
             apercu(it, liste)
             continue
-        if len(liste) <= it.get("rang", 0):
+        if not it.get("fichier") and len(liste) <= it.get("rang", 0):
             log(f"AUCUN resultat pour {it['recherche']} ({len(liste)})")
             continue
         c = liste[it.get("rang", 0)]
+        if it.get("fichier"):
+            c = next((x for x in liste if x["titre"] == it["fichier"]), None)
+            if not c:
+                log(f"AUCUN fichier {it['fichier']}")
+                continue
         try:
             img = Image.open(io.BytesIO(get(c["url"]))).convert("RGB")
         except Exception as e:

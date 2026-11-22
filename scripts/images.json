@@ -123,7 +123,8 @@
   "rang": 6,
   "out": "images/alencon/saint-leonard.webp",
   "ratio": "4:3",
-  "sujet": "Quartier Saint-Leonard"
+  "sujet": "Quartier Saint-Leonard",
+  "fichier": "Logis Saint-Léonard - Alençon 4.JPG"
  },
  {
   "recherche": "Basilique Notre-Dame Alençon",
@@ -138,13 +139,6 @@
   "out": "images/alencon/halle-au-ble.webp",
   "ratio": "4:3",
   "sujet": "Halle au Ble"
- },
- {
-  "recherche": "Point d'Alençon dentelle",
-  "rang": 5,
-  "out": "images/alencon/point-alencon.webp",
-  "ratio": "4:3",
-  "sujet": "Point d'Alencon"
  },
  {
   "recherche": "farmhouse dining room",
