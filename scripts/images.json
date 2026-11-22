@@ -110,5 +110,93 @@
   "out": "images/nous-chez-vous/valises.webp",
   "ratio": "4:3",
   "sujet": "Valises anciennes"
+ },
+ {
+  "recherche": "Musée des Beaux-Arts et de la Dentelle Alençon",
+  "rang": 0,
+  "out": "images/alencon/musee-dentelle.webp",
+  "ratio": "4:3",
+  "sujet": "Musee des Beaux-Arts et de la Dentelle",
+  "apercu": true
+ },
+ {
+  "recherche": "Saint-Léonard Alençon",
+  "rang": 0,
+  "out": "images/alencon/saint-leonard.webp",
+  "ratio": "4:3",
+  "sujet": "Quartier Saint-Leonard",
+  "apercu": true
+ },
+ {
+  "recherche": "Basilique Notre-Dame Alençon",
+  "rang": 0,
+  "out": "images/alencon/notre-dame.webp",
+  "ratio": "4:3",
+  "sujet": "Basilique Notre-Dame",
+  "apercu": true
+ },
+ {
+  "recherche": "Halle au blé Alençon",
+  "rang": 0,
+  "out": "images/alencon/halle-au-ble.webp",
+  "ratio": "4:3",
+  "sujet": "Halle au Ble",
+  "apercu": true
+ },
+ {
+  "recherche": "Point d'Alençon dentelle",
+  "rang": 0,
+  "out": "images/alencon/point-alencon.webp",
+  "ratio": "4:3",
+  "sujet": "Point d'Alencon",
+  "apercu": true
+ },
+ {
+  "recherche": "attic old furniture",
+  "rang": 0,
+  "out": "images/services/debarras.webp",
+  "ratio": "4:3",
+  "sujet": "Grenier a vider",
+  "apercu": true
+ },
+ {
+  "recherche": "magnifying glass antique",
+  "rang": 0,
+  "out": "images/services/estimation.webp",
+  "ratio": "4:3",
+  "sujet": "Estimation",
+  "apercu": true
+ },
+ {
+  "recherche": "antique shop furniture",
+  "rang": 0,
+  "out": "images/services/depot.webp",
+  "ratio": "4:3",
+  "sujet": "Depot-vente",
+  "apercu": true
+ },
+ {
+  "recherche": "plaster ceiling rose",
+  "rang": 0,
+  "out": "images/objets/medaillon-platre.webp",
+  "ratio": "1:1",
+  "sujet": "Medaillon en platre",
+  "apercu": true
+ },
+ {
+  "recherche": "farmhouse dining room",
+  "rang": 0,
+  "out": "images/nous-chez-vous/salle-a-manger.webp",
+  "ratio": "4:3",
+  "sujet": "Salle a manger",
+  "apercu": true
+ },
+ {
+  "recherche": "hallway console mirror",
+  "rang": 0,
+  "out": "images/nous-chez-vous/entree.webp",
+  "ratio": "4:3",
+  "sujet": "Entree",
+  "apercu": true
  }
 ]
