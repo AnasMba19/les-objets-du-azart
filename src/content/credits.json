@@ -10,10 +10,10 @@
  {
   "id": "images/ambiance/brocante-rue.webp",
   "sujet": "Mobilier de brocante",
-  "titre": "Pleasant Furniture, San Jose Flea Market, San Jose, California.jpg",
-  "auteur": "impiaaa @ Mapillary (impiaaa)",
-  "licence": "CC BY-SA 4.0",
-  "source": "https://commons.wikimedia.org/wiki/File:Pleasant_Furniture,_San_Jose_Flea_Market,_San_Jose,_California.jpg"
+  "titre": "Paris - Vintage travel gear seller at the marche Dauphine - 5212.jpg",
+  "auteur": "Jorge Royan (talk · contribs)",
+  "licence": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Paris_-_Vintage_travel_gear_seller_at_the_marche_Dauphine_-_5212.jpg"
  },
  {
   "id": "images/nous-chez-vous/friperie.webp",
@@ -42,10 +42,10 @@
  {
   "id": "images/nous-chez-vous/valises.webp",
   "sujet": "Valises anciennes",
-  "titre": "Skulptur Großgörschenstr 12 (Schön) Koffer&Gerald Matzner&2021.jpg",
-  "auteur": "OTFW, Berlin",
-  "licence": "CC BY-SA 3.0",
-  "source": "https://commons.wikimedia.org/wiki/File:Skulptur_Gro%C3%9Fg%C3%B6rschenstr_12_(Sch%C3%B6n)_Koffer%26Gerald_Matzner%262021.jpg"
+  "titre": "Cozy autumn setup with vintage suitcase, books, and seasonal decorations.jpg",
+  "auteur": "Shixart1985",
+  "licence": "CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Cozy_autumn_setup_with_vintage_suitcase,_books,_and_seasonal_decorations.jpg"
  },
  {
   "id": "images/objets/bougie-ambree.webp",
@@ -74,10 +74,10 @@
  {
   "id": "images/objets/coupelle-ceramique.webp",
   "sujet": "Coupelle en ceramique",
-  "titre": "Iron Age , Vessel (FindID 508972).jpg",
-  "auteur": "York Museums Trust, Rebecca Griffiths, 2012-07-03 13:06:17",
-  "licence": "CC BY-SA 2.0",
-  "source": "https://commons.wikimedia.org/wiki/File:Iron_Age_,_Vessel_(FindID_508972).jpg"
+  "titre": "Bowl (AM 1998.32.8-1).jpg",
+  "auteur": "Handcraft Pottery Limited; O C Stephens (New Zealander, b.1896, d.1980)",
+  "licence": "CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Bowl_(AM_1998.32.8-1).jpg"
  },
  {
   "id": "images/objets/fauteuil-anglais.webp",
@@ -122,10 +122,10 @@
  {
   "id": "images/objets/sac-cuir.webp",
   "sujet": "Sac en cuir",
-  "titre": "Kelly Bag.jpg",
-  "auteur": "Wen-Cheng Liu",
+  "titre": "Vintage Dormar Women's Purse, With Coin Purse & Mirror, Made In France, Circa 1967 (18209831343).jpg",
+  "auteur": "Joe Haupt from USA",
   "licence": "CC BY-SA 2.0",
-  "source": "https://commons.wikimedia.org/wiki/File:Kelly_Bag.jpg"
+  "source": "https://commons.wikimedia.org/wiki/File:Vintage_Dormar_Women%27s_Purse,_With_Coin_Purse_%26_Mirror,_Made_In_France,_Circa_1967_(18209831343).jpg"
  },
  {
   "id": "images/objets/service-the-porcelaine.webp",
@@ -142,5 +142,13 @@
   "auteur": "Auteur inconnu",
   "licence": "CC0",
   "source": "https://commons.wikimedia.org/wiki/File:Meissen_Porcelain_Factory_(German)_-_Teapot_-_2009.105.a_-_Cleveland_Museum_of_Art.jpg"
+ },
+ {
+  "id": "images/objets/valise-cuir.webp",
+  "sujet": "Valise en cuir",
+  "titre": "Time to go (Unsplash).jpg",
+  "auteur": "Damir Bosnjak damirphoto",
+  "licence": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Time_to_go_(Unsplash).jpg"
  }
 ]
