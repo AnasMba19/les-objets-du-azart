@@ -32,6 +32,29 @@ def vignette(img, force=0.28):
     sombre = ImageEnhance.Brightness(img).enhance(1 - force)
     return Image.composite(img, sombre, masque)
 
+JOURNAL = []
+
+def log(m):
+    print(m)
+    JOURNAL.append(m)
+
+def telecharge(id_):
+    essais = [
+        f"https://unsplash.com/photos/{id_}/download?force=true&w=2000",
+        f"https://unsplash.com/photos/{id_}/download",
+    ]
+    for url in essais:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124 Safari/537.36", "Accept": "image/*,*/*"})
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                data = r.read()
+                log(f"  {url} -> {r.status} {r.headers.get('Content-Type')} {len(data)} o via {r.geturl()[:90]}")
+                if data[:4] in (b"\xff\xd8\xff\xe0", b"\xff\xd8\xff\xe1", b"\xff\xd8\xff\xdb") or data[:4] == b"\x89PNG" or b"WEBP" in data[:16] or data[:3] == b"\xff\xd8\xff":
+                    return data
+        except Exception as e:
+            log(f"  {url} -> ERREUR {e}")
+    return None
+
 def main():
     items = json.loads((ROOT / "scripts" / "images.json").read_text())
     fait = 0
@@ -39,20 +62,18 @@ def main():
         cible = PUBLIC / it["out"]
         if cible.exists():
             continue
-        url = f"https://unsplash.com/photos/{it['id']}/download?force=true&w=2000"
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        try:
-            data = urllib.request.urlopen(req, timeout=60).read()
-        except Exception as e:
-            print(f"ECHEC {it['id']}: {e}", file=sys.stderr)
+        data = telecharge(it["id"])
+        if not data:
+            log(f"ECHEC {it['id']}")
             continue
         img = Image.open(io.BytesIO(data)).convert("RGB")
         img = vignette(chaud(recadre(img, it["ratio"])))
         cible.parent.mkdir(parents=True, exist_ok=True)
         img.save(cible, "WEBP", quality=80, method=6)
-        print(f"ok {it['out']} ({cible.stat().st_size // 1024} Ko)")
+        log(f"ok {it['out']} ({cible.stat().st_size // 1024} Ko)")
         fait += 1
-    print(f"{fait} image(s) traitee(s)")
+    log(f"{fait} image(s) traitee(s)")
+    (PUBLIC / "journal-photos.txt").write_text("\n".join(JOURNAL) + "\n")
 
 if __name__ == "__main__":
     main()
