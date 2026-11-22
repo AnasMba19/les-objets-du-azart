@@ -2,8 +2,8 @@
 import '../styles/global.css';
 import { site, wa } from '../site.config';
 
-interface Props { titre: string; description: string; page: string; image?: string; noindex?: boolean }
-const { titre, description, page, noindex = false } = Astro.props;
+interface Props { titre: string; description: string; page: string; image?: string; noindex?: boolean; lang?: string }
+const { titre, description, page, noindex = false, lang = 'fr' } = Astro.props;
 
 const nav = [
   { href: 'index.html', label: 'Accueil', id: 'accueil' },
@@ -11,7 +11,8 @@ const nav = [
   { href: 'services.html', label: 'Nos Services', id: 'services' },
   { href: 'nous-chez-vous.html', label: 'Nous chez Vous', id: 'nous-chez-vous' },
   ...(site.salonDeThe ? [{ href: 'salon-de-the.html', label: 'Salon de Thé', id: 'salon-de-the' }] : []),
-  { href: 'flaneries-alencon.html', label: 'Flâneries à Alençon', id: 'flaneries' },
+  { href: 'evenements.html', label: 'Événements', id: 'evenements' },
+  { href: 'flaneries-alencon.html', label: 'Flâneries', id: 'flaneries' },
   { href: 'contact.html', label: 'Contact', id: 'contact' },
 ];
 
@@ -38,7 +39,7 @@ const jsonLd = {
 };
 ---
 <!DOCTYPE html>
-<html lang="fr">
+<html lang={lang}>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -46,6 +47,8 @@ const jsonLd = {
   <meta name="description" content={description} />
   {noindex && <meta name="robots" content="noindex" />}
   <link rel="canonical" href={canonical} />
+  <link rel="alternate" hreflang="fr" href={`${site.url}/index.html`} />
+  <link rel="alternate" hreflang="en" href={`${site.url}/english.html`} />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="fr_FR" />
   <meta property="og:site_name" content={site.nom} />
@@ -55,7 +58,7 @@ const jsonLd = {
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400;0,500;1,400&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </head>
 <body>
@@ -72,12 +75,19 @@ const jsonLd = {
       <nav class="nav" aria-label="Navigation principale">
         {nav.map((n) => <a href={n.href} aria-current={n.id === page ? 'page' : undefined}>{n.label}</a>)}
       </nav>
+      <div class="header-tools">
+        <a class="lang" href="english.html" hreflang="en" lang="en">EN</a>
+        <button class="sel-btn" type="button" data-ouvrir-selection aria-label="Ma sélection">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+          <span data-compte>0</span>
+        </button>
       <details class="menu">
         <summary>Menu</summary>
         <div class="menu-panel">
           {nav.map((n) => <a href={n.href} aria-current={n.id === page ? 'page' : undefined}>{n.label}</a>)}
         </div>
       </details>
+      </div>
     </div>
   </header>
 
@@ -97,7 +107,9 @@ const jsonLd = {
           <h4>Visiter</h4>
           <a href="boutique.html">La Boutique</a>
           <a href="services.html">Débarras et estimation</a>
+          <a href="evenements.html">Événements</a>
           <a href="flaneries-alencon.html">Flâneries à Alençon</a>
+          <a href="english.html" lang="en">In English</a>
           <a href="contact.html">Nous trouver</a>
         </div>
         <div>
@@ -109,9 +121,65 @@ const jsonLd = {
           {site.facebook && <a href={site.facebook} target="_blank" rel="noopener">Facebook</a>}
         </div>
       </div>
-      <div class="legal">© {new Date().getFullYear()} {site.nom}, {site.ville}. Tous droits réservés. · <a href="credits.html" style="display:inline">Crédits photos</a></div>
+      <div class="legal">© {new Date().getFullYear()} {site.nom}, {site.ville}. Tous droits réservés. <a href="credits.html" style="display:inline;margin-left:14px">Crédits photos</a></div>
     </div>
   </footer>
+
+  <aside class="selection" id="selection" aria-label="Ma sélection" aria-hidden="true">
+    <div class="tete"><h2>Ma sélection</h2><button type="button" data-fermer-selection>Fermer</button></div>
+    <ul id="selection-liste"></ul>
+    <div class="pied">
+      <p class="muted" style="font-size:.9rem">Envoyez votre sélection à Mouna : elle vous répond sur la disponibilité de chaque pièce.</p>
+      <a class="btn btn-primary" id="selection-envoyer" target="_blank" rel="noopener" href={`https://wa.me/${site.whatsapp}`}>Envoyer sur WhatsApp</a>
+    </div>
+  </aside>
+
+  <script is:inline define:vars={{ num: site.whatsapp, base: site.url }}>
+    (function () {
+      var CLE = 'azart-selection';
+      function lire() { try { return JSON.parse(localStorage.getItem(CLE)) || []; } catch (e) { return window.__sel || []; } }
+      function ecrire(l) { window.__sel = l; try { localStorage.setItem(CLE, JSON.stringify(l)); } catch (e) {} majTout(); }
+      function contient(id) { return lire().some(function (x) { return x.id === id; }); }
+      function basculer(id, titre) {
+        var l = lire();
+        if (contient(id)) l = l.filter(function (x) { return x.id !== id; });
+        else l.push({ id: id, titre: titre });
+        ecrire(l);
+      }
+      function majTout() {
+        var l = lire();
+        document.querySelectorAll('[data-compte]').forEach(function (e) { e.textContent = l.length; });
+        document.querySelectorAll('[data-coeur]').forEach(function (b) {
+          var on = contient(b.dataset.coeur);
+          b.setAttribute('aria-pressed', String(on));
+          var t = b.querySelector('[data-libelle]');
+          if (t) t.textContent = on ? 'Dans ma sélection' : 'Ajouter à ma sélection';
+        });
+        var ul = document.getElementById('selection-liste');
+        ul.innerHTML = '';
+        if (!l.length) { ul.innerHTML = '<li class="vide">Touchez le cœur sur une pièce pour l\'ajouter ici.</li>'; }
+        l.forEach(function (x) {
+          var li = document.createElement('li');
+          var a = document.createElement('a'); a.href = 'objet-' + x.id + '.html'; a.textContent = x.titre;
+          var b = document.createElement('button'); b.type = 'button'; b.textContent = 'Retirer';
+          b.addEventListener('click', function () { basculer(x.id, x.titre); });
+          li.appendChild(a); li.appendChild(b); ul.appendChild(li);
+        });
+        var texte = 'Bonjour Mouna, voici ma sélection repérée sur le site :\n' + l.map(function (x) { return '- ' + x.titre + ' (' + base + '/objet-' + x.id + '.html)'; }).join('\n') + '\nSont-elles toujours disponibles ?';
+        document.getElementById('selection-envoyer').href = 'https://wa.me/' + num + '?text=' + encodeURIComponent(texte);
+      }
+      var panneau = document.getElementById('selection');
+      function ouvrir(o) { panneau.classList.toggle('ouvert', o); panneau.setAttribute('aria-hidden', String(!o)); }
+      document.addEventListener('click', function (e) {
+        var c = e.target.closest('[data-coeur]');
+        if (c) { e.preventDefault(); basculer(c.dataset.coeur, c.dataset.titre); return; }
+        if (e.target.closest('[data-ouvrir-selection]')) ouvrir(true);
+        if (e.target.closest('[data-fermer-selection]')) ouvrir(false);
+      });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') ouvrir(false); });
+      majTout();
+    })();
+  </script>
 
   <a class="wa-float" href={wa("Bonjour Mouna, je vous contacte depuis le site.")} target="_blank" rel="noopener" aria-label="Écrire sur WhatsApp">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.5L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.5 9.5c.5 2.5 2.5 4.5 5 5"/></svg>

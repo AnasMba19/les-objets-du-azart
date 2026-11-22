@@ -37,7 +37,7 @@ const pageUrl = `${site.url}/objet-${objet.id}.html`;
         )}
       </div>
       <div>
-        <span class="eyebrow">{cat.nom}</span>
+        <a class="eyebrow" href={`boutique.html#${d.categorie}`} style="text-decoration:none">{cat.nom}</a>
         <h1 style="font-size:clamp(2.2rem,5vw,3.4rem)">{d.titre}</h1>
         <p class="price">{d.prix ? `${d.prix} €` : 'Prix sur demande'}</p>
         <div class="muted"><Content /></div>
@@ -66,7 +66,12 @@ const pageUrl = `${site.url}/objet-${objet.id}.html`;
              href={`https://wa.me/${site.whatsapp}`}>
             {d.statut === 'vendu' ? 'Être prévenu(e)' : 'Réserver sur WhatsApp'}
           </a>
-          <a class="btn" href={`boutique.html#${d.categorie}`}>Retour à {cat.court}</a>
+          {d.statut !== 'vendu' && (
+            <button class="btn coeur-large" type="button" data-coeur={objet.id} data-titre={d.titre} aria-pressed="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+              <span data-libelle>Ajouter à ma sélection</span>
+            </button>
+          )}
         </div>
       </div>
     </article>
@@ -79,8 +84,14 @@ const pageUrl = `${site.url}/objet-${objet.id}.html`;
     )}
   </div>
 
+  <div class="zoom" id="zoom" role="dialog" aria-label="Photo agrandie"><button type="button">Fermer</button><img alt="" /></div>
   <script is:inline>
     (function () {
+      var zoom = document.getElementById('zoom');
+      var mainImg = document.getElementById('main-photo');
+      if (mainImg) mainImg.addEventListener('click', function () { zoom.querySelector('img').src = mainImg.src; zoom.classList.add('ouvert'); });
+      zoom.addEventListener('click', function () { zoom.classList.remove('ouvert'); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') zoom.classList.remove('ouvert'); });
       var a = document.getElementById('wa-objet');
       var cadeau = document.getElementById('cadeau');
       function maj() {

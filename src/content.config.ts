@@ -31,4 +31,15 @@ const chezVous = defineCollection({
   }),
 });
 
-export const collections = { objets, chezVous };
+const evenements = defineCollection({
+  loader: file('./src/content/evenements.json'),
+  schema: z.object({
+    date: z.string(),
+    titre: z.string(),
+    lieu: z.string().optional(),
+    texte: z.string().optional(),
+    aConfirmer: z.boolean().default(false),
+  }),
+});
+
+export const collections = { objets, chezVous, evenements };

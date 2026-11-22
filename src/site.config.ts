@@ -3,7 +3,7 @@
 
 export const site = {
   nom: "Les objets du Az'art",
-  accroche: 'Brocante, créations et friperie à Alençon',
+  accroche: 'Brocante et art de vivre à Alençon',
   url: 'https://anasmba19.github.io/les-objets-du-azart',
   // Domaine definitif (deja utilise par la boutique) : https://www.lesobjetsduazart.fr
 
@@ -28,6 +28,8 @@ export const site = {
 
   // Lien vers la fiche Google de la boutique (pour les avis).
   avisGoogle: 'https://www.google.com/search?q=Les+objets+du+Az%27art+Alen%C3%A7on',
+  // Lien d'invitation de la chaine WhatsApp des arrivages (a creer par Mouna).
+  chaineWhatsapp: '',
   instagram: '',
   facebook: '',
 

@@ -2,27 +2,27 @@
 import Base from '../layouts/Base.astro';
 import Illustration from '../components/Illustration.astro';
 import ObjetCard from '../components/ObjetCard.astro';
+import Dentelle from '../components/Dentelle.astro';
 import { getCollection } from 'astro:content';
 import { site, categories, wa } from '../site.config';
 import { dispo, photosDispo } from '../lib/photo';
-const tous = await getCollection('objets');
-const vitrine = [
-  { src: 'images/objets/lustre-pampilles-laiton.webp', tag: 'Lustre', alt: 'Lustre ancien' },
-  { src: 'images/objets/service-the-porcelaine.webp', tag: 'Porcelaine', alt: 'Service à thé fleuri' },
-  { src: 'images/objets/fauteuil-anglais.webp', tag: 'Fauteuil', alt: 'Fauteuil ancien' },
-].filter((v) => dispo(v.src));
-const photoUnivers = (id: string) => photosDispo(tous.filter((o) => o.data.categorie === id).flatMap((o) => o.data.photos))[0];
-const photoVisite = 'images/nous-chez-vous/lustre-salon.webp';
 
-const objets = (await getCollection('objets'))
+const tous = await getCollection('objets');
+const objets = tous
   .filter((o) => o.data.statut !== 'vendu')
   .sort((a, b) => b.data.ajoute.getTime() - a.data.ajoute.getTime())
   .slice(0, 4);
+const evenements = await getCollection('evenements');
+const grande = 'images/nous-chez-vous/lustre-salon.webp';
+const medaillon = 'images/objets/service-the-porcelaine.webp';
+const photoUnivers = (id: string) => photosDispo(tous.filter((o) => o.data.categorie === id).flatMap((o) => o.data.photos))[0];
+const photoVisite = 'images/objets/bureau-ancien.webp';
+const lienArrivages = site.chaineWhatsapp || wa("Bonjour Mouna, pouvez-vous m'ajouter à la liste des arrivages ?");
 ---
-<Base page="accueil" titre="Accueil" description="Brocante, créations artisanales et friperie à Alençon, quartier Lancrel. Mobilier, luminaires, vaisselle ancienne, pièces uniques. Débarras, estimation, achat et dépôt-vente.">
+<Base page="accueil" titre="Accueil" description="Brocante et art de vivre à Alençon, quartier Lancrel : mobilier, luminaires, vaisselle ancienne, pièces uniques, créations faites main et friperie. Débarras, estimation, achat et dépôt-vente.">
   <section class="hero">
     <div class="wrap hero-grid">
-      <div class="reveal">
+      <div>
         <span class="eyebrow">Brocante et art de vivre, à Alençon</span>
         <h1>Chaque objet a une histoire à raconter.</h1>
         <p class="hero-quote">Parce que le hasard fait souvent bien les choses, la boutique Les objets du Az'art vous ouvre ses portes. Collectionneur, amateur de déco vintage ou simplement curieux, laissez-vous porter par le charme de l'ancien.</p>
@@ -31,38 +31,47 @@ const objets = (await getCollection('objets'))
           <a class="btn" href="services.html">Débarras et estimation</a>
         </div>
       </div>
-      {vitrine.length === 3 ? (
-        <div class="vitrine" aria-label="Quelques pièces de la boutique">
-          {vitrine.map((v, i) => (
-            <figure class={`v${i + 1}`}><img src={v.src} alt={v.alt} /><span class="tag">{v.tag}</span></figure>
-          ))}
-          <span class="note">Photos d'illustration</span>
-        </div>
+      {dispo(grande) ? (
+        <figure class="arcade">
+          <div class="cadre"><img src={grande} alt="Lustre ancien dans un salon" /></div>
+          {dispo(medaillon) && <div class="medaillon"><img src={medaillon} alt="Service à thé en porcelaine" /></div>}
+          <figcaption>Photos d'illustration</figcaption>
+        </figure>
       ) : (
         <figure class="hero-art"><Illustration nom="interieur" label="La boutique" /></figure>
       )}
     </div>
   </section>
 
+  <Dentelle />
+
   {objets.length > 0 && (
-    <section class="section" style="padding-top:0">
+    <section class="section">
       <div class="wrap">
         <div class="section-head" style="display:flex;justify-content:space-between;align-items:end;max-width:none;gap:20px;flex-wrap:wrap">
           <div>
+            <span class="eyebrow">Fraîchement chinés</span>
             <h2 style="margin:0">Derniers arrivages</h2>
           </div>
-          <a class="btn" href="boutique.html">Tout voir</a>
+          <a class="btn" href="boutique.html">Voir toute la boutique</a>
         </div>
-        <div class="grid">
-          {objets.map((o) => <ObjetCard objet={o} />)}
-        </div>
+        <div class="grid">{objets.map((o) => <ObjetCard objet={o} />)}</div>
       </div>
     </section>
   )}
 
-  <section class="section" style="padding-top:0">
+  <section class="section arrivages">
     <div class="wrap">
-      <div class="section-head">
+      <span class="eyebrow">La liste des arrivages</span>
+      <h2>Soyez les premiers sur les nouvelles pièces</h2>
+      <p>Les plus belles trouvailles partent vite. Inscrivez-vous sur WhatsApp : Mouna vous envoie les nouveautés avant tout le monde.</p>
+      <div class="actions"><a class="btn btn-primary" href={lienArrivages} target="_blank" rel="noopener">M'inscrire sur WhatsApp</a></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head" style="text-align:center;margin-inline:auto">
         <h2>Quatre façons de chiner</h2>
         <p class="muted">La chine classique d'un côté, les créations de l'atelier de l'autre.</p>
       </div>
@@ -71,7 +80,7 @@ const objets = (await getCollection('objets'))
           const ph = photoUnivers(id);
           return (
             <a href={`boutique.html#${id}`}>
-              {ph ? <img src={ph} alt="" loading="lazy" /> : <Illustration nom={c.illustration} label={c.nom} />}
+              <div class="arc">{ph ? <img src={ph} alt="" loading="lazy" /> : <Illustration nom={c.illustration} label={c.nom} />}</div>
               <div class="txt"><h3>{c.nom}</h3><p>{c.texte}</p></div>
             </a>
           );
@@ -95,39 +104,47 @@ const objets = (await getCollection('objets'))
           <a class="btn" href={wa("Bonjour Mouna, je souhaite passer à la boutique. Êtes-vous ouverte ")} target="_blank" rel="noopener">Prévenir de ma visite</a>
         </div>
       </div>
-      {dispo(photoVisite) && <div class="ph"><img src={photoVisite} alt="Lustre ancien dans un salon" loading="lazy" /></div>}
+      {dispo(photoVisite) && <div class="ph"><img src={photoVisite} alt="Bureau ancien" loading="lazy" /></div>}
     </div>
   </section>
 
-  <section class="section" style="padding-top:0">
+  {evenements.length > 0 && (
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <div class="section-head" style="display:flex;justify-content:space-between;align-items:end;max-width:none;gap:20px;flex-wrap:wrap">
+          <h2 style="margin:0">Prochains rendez-vous</h2>
+          <a class="btn" href="evenements.html">Tous les événements</a>
+        </div>
+        {evenements.slice(0, 2).map((e) => (
+          <div class="evt">
+            <div class="date">{e.data.date}</div>
+            <div><h3>{e.data.titre}</h3><p>{e.data.texte}</p>{e.data.aConfirmer && <span class="flag">Date à confirmer</span>}</div>
+            <div class="muted" style="font-size:.9rem">{e.data.lieu}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <Dentelle />
+
+  <section class="section">
     <div class="wrap split">
       <div class="panel">
-                <h2>Vous videz une maison ou faites de la place&nbsp;?</h2>
+        <h2>Vous videz une maison ou faites de la place&nbsp;?</h2>
         <p class="muted">Successions, déménagements, caves et greniers : nous intervenons avec soin et respect. Envoyez quelques photos, nous vous répondons rapidement.</p>
         <div class="actions">
-          <a class="btn btn-olive" href="contact.html#formulaire">Envoyer des photos</a>
+          <a class="btn btn-primary" href="contact.html#formulaire">Envoyer des photos</a>
           <a class="btn" href="services.html">Nos services</a>
         </div>
       </div>
-      <div class="panel avis">
-        <div>
-                    <div class="stars" aria-hidden="true">★★★★★</div>
-          <h3 style="margin-top:10px">Les avis de nos clients</h3>
-          <p class="muted" style="margin:0">Retrouvez ce que nos visiteurs disent de la boutique sur Google, et laissez le vôtre.</p>
-        </div>
-        <a class="btn" href={site.avisGoogle} target="_blank" rel="noopener">Voir les avis</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" style="padding-top:0">
-    <div class="wrap">
-      <div class="panel" style="text-align:center;padding-block:56px">
-                <h2>Nos trouvailles, dans leur nouvelle vie</h2>
-        <p class="muted" style="max-width:560px;margin:0 auto 24px">Une table de ferme dans une salle à manger, un miroir dans une entrée, une robe rétro portée avec style. Envoyez-nous vos photos.</p>
-        <div class="actions" style="justify-content:center">
-          <a class="btn" href="nous-chez-vous.html">Voir la galerie</a>
-          <a class="btn btn-olive" href={wa("Bonjour Mouna, voici une photo de ma trouvaille chez moi !")} target="_blank" rel="noopener">Partager ma photo</a>
+      <div class="panel">
+        <div class="stars" aria-hidden="true">★★★★★</div>
+        <h2 style="margin-top:12px">Ils sont passés en boutique</h2>
+        <p class="muted">Retrouvez ce que nos visiteurs disent de la boutique sur Google, et laissez le vôtre.</p>
+        <div class="actions">
+          <a class="btn" href={site.avisGoogle} target="_blank" rel="noopener">Voir les avis</a>
+          <a class="btn" href="nous-chez-vous.html">Nos trouvailles chez vous</a>
         </div>
       </div>
     </div>

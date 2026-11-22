@@ -12,16 +12,21 @@ const photos = photosDispo(d.photos);
 const nouveau = d.statut === 'disponible' && Date.now() - d.ajoute.getTime() < 21 * 864e5;
 const statutLabel = { disponible: '', reserve: 'Réservé', vendu: 'Vendu' }[d.statut];
 ---
-<a class={`card ${d.statut === 'vendu' ? 'is-vendu' : ''}`} href={`objet-${objet.id}.html`} data-cat={d.categorie}>
-  <div class="card-media">
-    {photos.length ? <img src={photos[0]} alt={d.titre} loading="lazy" /> : <Illustration nom={d.illustration ?? cat.illustration} label={d.titre} />}
-    <span class={`tag ${nouveau ? 'nouveau' : ''}`}>{nouveau ? 'Nouveau' : cat.court}</span>
-    {statutLabel && <span class={`badge ${d.statut}`}>{statutLabel}</span>}
-    {photos.length > 0 && d.exemple && <span class="illus-note">Photo d'illustration</span>}
-  </div>
-  <div class="card-body">
-    <span class="card-cat">{cat.court}</span>
-    <h3>{d.titre}</h3>
-    {d.prix ? <span class="card-price">{d.prix} €</span> : <span class="card-price sur-demande">Prix sur demande</span>}
-  </div>
-</a>
+<div class={`card ${d.statut === 'vendu' ? 'is-vendu' : ''}`} data-cat={d.categorie} data-titre={d.titre.toLowerCase()} data-date={d.ajoute.getTime()}>
+  <a class="card-link" href={`objet-${objet.id}.html`}>
+    <div class="card-media">
+      {photos.length ? <img src={photos[0]} alt={d.titre} loading="lazy" /> : <Illustration nom={d.illustration ?? cat.illustration} label={d.titre} />}
+      {statutLabel ? <span class={`badge ${d.statut}`}>{statutLabel}</span> : photos.length > 0 && d.exemple && <span class="illus-note">Photo d'illustration</span>}
+    </div>
+    <div class="card-body">
+      <span class="card-cat">{cat.nom}{nouveau && <span class="nouveau-txt">, nouvel arrivage</span>}</span>
+      <h3>{d.titre}</h3>
+      {d.prix ? <span class="card-price">{d.prix} €</span> : <span class="card-price sur-demande">Prix sur demande</span>}
+    </div>
+  </a>
+  {d.statut !== 'vendu' && (
+    <button class="coeur" type="button" data-coeur={objet.id} data-titre={d.titre} aria-pressed="false" aria-label={`Ajouter ${d.titre} à ma sélection`}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+    </button>
+  )}
+</div>

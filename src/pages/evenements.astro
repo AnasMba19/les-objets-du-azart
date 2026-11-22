@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import Dentelle from '../components/Dentelle.astro';
+import { getCollection } from 'astro:content';
+import { wa } from '../site.config';
+
+const evenements = await getCollection('evenements');
+---
+<Base page="evenements" titre="Événements et rendez-vous" description="Brocantes, vide-greniers et rendez-vous des objets du Az'art à Alençon et dans le quartier Lancrel.">
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Événements</span>
+      <h1>Les rendez-vous des chineurs</h1>
+      <p>Brocantes de quartier, arrivages exceptionnels, ventes spéciales : les dates à noter pour ne rien manquer.</p>
+    </div>
+  </section>
+  <section class="wrap" style="padding-bottom:70px">
+    {evenements.length ? evenements.map((e) => (
+      <div class="evt">
+        <div class="date">{e.data.date}</div>
+        <div><h3>{e.data.titre}</h3>{e.data.texte && <p>{e.data.texte}</p>}{e.data.aConfirmer && <span class="flag">Date à confirmer</span>}</div>
+        <div class="muted" style="font-size:.9rem">{e.data.lieu}</div>
+      </div>
+    )) : <p class="empty">Pas de rendez-vous annoncé pour le moment.</p>}
+  </section>
+  <Dentelle />
+  <section class="section">
+    <div class="wrap" style="text-align:center">
+      <h2>Être prévenu des prochaines dates</h2>
+      <p class="muted" style="max-width:520px;margin:0 auto 24px">Inscrivez-vous sur WhatsApp, Mouna vous envoie les dates et les arrivages.</p>
+      <a class="btn btn-primary" href={wa("Bonjour Mouna, pouvez-vous me prévenir des prochains événements et arrivages ?")} target="_blank" rel="noopener">M'inscrire sur WhatsApp</a>
+    </div>
+  </section>
+</Base>

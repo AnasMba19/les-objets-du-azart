@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import Dentelle from '../components/Dentelle.astro';
+import { site, wa } from '../site.config';
+import { dispo } from '../lib/photo';
+const ph = 'images/nous-chez-vous/lustre-salon.webp';
+const jours: Record<string, string> = { 'Vendredi': 'Friday', 'Samedi': 'Saturday', 'Lundi au jeudi': 'Monday to Thursday', 'Dimanche': 'Sunday' };
+const heures = (h: string) => h.replace('sur rendez-vous', 'by appointment').replace('fermé', 'closed').replace(' et ', ' and ');
+---
+<Base page="english" lang="en" titre="Antiques, vintage and handmade in Alençon" description="Les objets du Az'art: antiques, vintage homeware, handmade creations and second-hand clothing in Alençon, Normandy. House clearance and valuations. Message us on WhatsApp.">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Antiques and art de vivre in Alençon, Normandy</span>
+        <h1>Every object has a story to tell.</h1>
+        <p class="hero-quote">A small brocante in the Lancrel quarter of Alençon: antique furniture, lighting, glass and china, curiosities, handmade candles and lampshades, and vintage clothing. Every piece is chosen by Mouna, one by one.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href={wa("Hello Mouna, I found your shop online and I would like some information.")} target="_blank" rel="noopener">Message us on WhatsApp</a>
+          <a class="btn" href="boutique.html">Browse the shop (in French)</a>
+        </div>
+      </div>
+      {dispo(ph) && <figure class="arcade"><div class="cadre"><img src={ph} alt="Antique chandelier in a living room" /></div><figcaption>Illustrative photo</figcaption></figure>}
+    </div>
+  </section>
+  <Dentelle />
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <h2>Visit the shop</h2>
+        <p class="muted">We are happy to help in English. Send us a message before you come, and we can set aside the pieces you like.</p>
+        <dl class="facts" style="font-size:1rem">
+          <dt>Address</dt><dd>{site.adresse}, {site.codePostal} {site.ville}, France</dd>
+          {site.horaires.map((h) => <><dt>{jours[h.jours] ?? h.jours}</dt><dd>{heures(h.heures)}</dd></>)}
+          <dt>WhatsApp</dt><dd>+33 6 73 48 73 05</dd>
+          <dt>Email</dt><dd>{site.email}</dd>
+        </dl>
+        <p class="muted" style="font-size:.9rem">Opening hours are a guide: please message us before your visit.</p>
+      </div>
+      <div class="panel">
+        <h2>Clearing a house in Normandy?</h2>
+        <p class="muted">We clear houses, attics and cellars, value antiques and buy or sell on consignment. Send a few photos on WhatsApp for a first answer.</p>
+        <a class="btn btn-primary" href={wa("Hello Mouna, I would like a valuation / house clearance. Here are some photos:")} target="_blank" rel="noopener">Send photos on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</Base>

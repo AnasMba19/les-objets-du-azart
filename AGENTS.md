@@ -63,3 +63,11 @@ de la photo), le chemin de sortie et le format (`1:1` objets, `4:3` galerie,
 (tons chauds, recadrage) et l'enregistre dans `public/images/`.
 Une photo d'illustration sur une fiche objet garde `exemple: true` :
 le site affiche alors la mention "Photo d'illustration".
+
+## Evenements et liste des arrivages
+
+- Un evenement = une entree dans `src/content/evenements.json`
+  (`date` en texte libre, `titre`, `lieu`, `texte`, `aConfirmer`).
+- Quand Mouna a cree sa chaine WhatsApp des arrivages, colle le lien
+  d'invitation dans `chaineWhatsapp` (`src/site.config.ts`) : tous les
+  boutons "M'inscrire sur WhatsApp" pointeront dessus.
