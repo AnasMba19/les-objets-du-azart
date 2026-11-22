@@ -128,12 +128,28 @@
   "source": "https://commons.wikimedia.org/wiki/File:Chandelier_(_1030220).jpg"
  },
  {
+  "id": "images/objets/medaillon-platre.webp",
+  "sujet": "Medaillon en platre",
+  "titre": "Dining room from Lansdowne House MET ES5745.jpg",
+  "auteur": "Joseph Rose / John Gilbert / Robert Adam",
+  "licence": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Dining_room_from_Lansdowne_House_MET_ES5745.jpg"
+ },
+ {
   "id": "images/objets/miroir-dore.webp",
   "sujet": "Miroir dore sculpte",
   "titre": "Antique mirrors 67.jpg",
   "auteur": "CNEcija12345",
   "licence": "CC BY-SA 4.0",
   "source": "https://commons.wikimedia.org/wiki/File:Antique_mirrors_67.jpg"
+ },
+ {
+  "id": "images/objets/robes-vintage.webp",
+  "sujet": "Robes vintage",
+  "titre": "Tidens Samling - 1950s 07.jpg",
+  "auteur": "Leif Jørgensen",
+  "licence": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Tidens_Samling_-_1950s_07.jpg"
  },
  {
   "id": "images/objets/sac-cuir.webp",
