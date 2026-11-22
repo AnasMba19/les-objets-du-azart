@@ -110,12 +110,5 @@
   "out": "images/nous-chez-vous/valises.webp",
   "ratio": "4:3",
   "sujet": "Valises anciennes"
- },
- {
-  "recherche": "brocante",
-  "rang": 2,
-  "out": "images/ambiance/brocante-rue.webp",
-  "ratio": "4:3",
-  "sujet": "Mobilier de brocante"
  }
 ]
