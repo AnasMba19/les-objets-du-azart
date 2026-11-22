@@ -7,7 +7,7 @@
   "sujet": "Interieur de brocante"
  },
  {
-  "recherche": "antique chandelier crystal brass",
+  "recherche": "chandelier",
   "rang": 0,
   "out": "images/objets/lustre-pampilles-laiton.webp",
   "ratio": "1:1",
@@ -22,7 +22,7 @@
   "sujet": "Bureau ancien et sa chaise"
  },
  {
-  "recherche": "antique mirror gilt frame",
+  "recherche": "antique mirror",
   "rang": 0,
   "out": "images/objets/miroir-dore.webp",
   "ratio": "1:1",
@@ -45,11 +45,10 @@
  },
  {
   "recherche": "old leather suitcase",
-  "rang": 0,
+  "rang": 5,
   "out": "images/objets/valise-cuir.webp",
   "ratio": "1:1",
-  "sujet": "Valise en cuir",
-  "apercu": true
+  "sujet": "Valise en cuir"
  },
  {
   "recherche": "porcelain teapot",
@@ -84,11 +83,10 @@
   "rang": 0,
   "out": "images/objets/coupelle-ceramique.webp",
   "ratio": "1:1",
-  "sujet": "Coupelle en ceramique",
-  "apercu": true
+  "sujet": "Coupelle en ceramique"
  },
  {
-  "recherche": "vintage dress shop",
+  "recherche": "vintage dress",
   "rang": 0,
   "out": "images/objets/robes-vintage.webp",
   "ratio": "1:1",
@@ -97,11 +95,10 @@
  },
  {
   "recherche": "vintage handbag",
-  "rang": 0,
+  "rang": 2,
   "out": "images/objets/sac-cuir.webp",
   "ratio": "1:1",
-  "sujet": "Sac en cuir",
-  "apercu": true
+  "sujet": "Sac en cuir"
  },
  {
   "recherche": "teapot on windowsill",
@@ -126,18 +123,16 @@
  },
  {
   "recherche": "vintage suitcases",
-  "rang": 0,
+  "rang": 2,
   "out": "images/nous-chez-vous/valises.webp",
   "ratio": "4:3",
-  "sujet": "Valises anciennes",
-  "apercu": true
+  "sujet": "Valises anciennes"
  },
  {
   "recherche": "brocante",
-  "rang": 0,
+  "rang": 2,
   "out": "images/ambiance/brocante-rue.webp",
   "ratio": "4:3",
-  "sujet": "Mobilier de brocante",
-  "apercu": true
+  "sujet": "Mobilier de brocante"
  }
 ]
