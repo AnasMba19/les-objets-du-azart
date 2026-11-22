@@ -192,6 +192,73 @@ const jsonLd = {
     })();
   </script>
 
+  <div class="manicule" id="manicule" aria-hidden="true"><span>☞</span></div>
+  <div class="loupe" id="loupe" aria-hidden="true"></div>
+  <script is:inline>
+    (function () {
+      var calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // 1. Lettres des titres qui ondulent au survol
+      document.querySelectorAll('h1, .section-head h2, .page-head h1').forEach(function (h) {
+        if (h.dataset.onde) return;
+        h.dataset.onde = '1';
+        h.setAttribute('aria-label', h.textContent.trim());
+        var i = 0;
+        (function decoupe(n) {
+          Array.prototype.slice.call(n.childNodes).forEach(function (c) {
+            if (c.nodeType === 3) {
+              var f = document.createDocumentFragment();
+              c.textContent.split(/(\s+)/).forEach(function (mot) {
+                if (!mot) return;
+                if (/^\s+$/.test(mot)) { f.appendChild(document.createTextNode(mot)); return; }
+                var w = document.createElement('span'); w.style.whiteSpace = 'nowrap'; w.setAttribute('aria-hidden', 'true');
+                Array.from(mot).forEach(function (ch) { var s = document.createElement('span'); s.className = 'l'; s.style.setProperty('--i', i++); s.textContent = ch; w.appendChild(s); });
+                f.appendChild(w);
+              });
+              c.replaceWith(f);
+            } else if (c.nodeType === 1) decoupe(c);
+          });
+        })(h);
+        h.classList.add('onde');
+      });
+      var fin = matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (calme || !fin) return;
+      // 2. La main d'imprimeur qui montre le chemin
+      var m = document.getElementById('manicule'), minuteur;
+      function pointer(el) {
+        var r = el.getBoundingClientRect();
+        if (r.width === 0) return;
+        m.style.transform = 'translate(' + (r.left - 42) + 'px,' + (r.top + r.height / 2 - 17) + 'px)';
+        m.classList.add('vu');
+        clearTimeout(minuteur);
+      }
+      function cacher() { clearTimeout(minuteur); minuteur = setTimeout(function () { m.classList.remove('vu'); }, 900); }
+      var cibles = '.nav a, .btn, .chip, .footer a, .lang, .theme-btn, .sel-btn';
+      document.addEventListener('mouseover', function (e) { var t = e.target.closest(cibles); if (t) pointer(t); });
+      document.addEventListener('mouseout', function (e) { var t = e.target.closest(cibles); if (t && !t.contains(e.relatedTarget)) cacher(); });
+      window.addEventListener('scroll', function () { m.classList.remove('vu'); }, { passive: true });
+      var premier = document.querySelector('main .btn-primary');
+      if (premier) setTimeout(function () { var r = premier.getBoundingClientRect(); if (r.top > 0 && r.bottom < innerHeight) { pointer(premier); minuteur = setTimeout(function () { m.classList.remove('vu'); }, 2600); } }, 1400);
+      // 3. La loupe d'antiquaire sur les photos
+      var loupe = document.getElementById('loupe'), Z = 2.3;
+      document.querySelectorAll('.card-media img, .objet-media img, .gravure img').forEach(function (img) {
+        img.classList.add('a-loupe');
+        img.addEventListener('mouseenter', function () { loupe.style.backgroundImage = 'url("' + img.currentSrc + '")'; loupe.classList.add('vu'); });
+        img.addEventListener('mouseleave', function () { loupe.classList.remove('vu'); });
+        img.addEventListener('mousemove', function (e) {
+          var r = img.getBoundingClientRect();
+          var x = e.clientX - r.left, y = e.clientY - r.top;
+          loupe.style.left = e.clientX + 'px'; loupe.style.top = e.clientY + 'px';
+          var k = Math.max(r.width / (img.naturalWidth || r.width), r.height / (img.naturalHeight || r.height));
+          var dw = (img.naturalWidth || r.width) * k, dh = (img.naturalHeight || r.height) * k;
+          var ox = (r.width - dw) / 2, oy = (r.height - dh) / 2;
+          loupe.style.backgroundSize = (dw * Z) + 'px ' + (dh * Z) + 'px';
+          loupe.style.backgroundPosition = (85 - (x - ox) * Z) + 'px ' + (85 - (y - oy) * Z) + 'px';
+          loupe.style.filter = getComputedStyle(img).filter;
+        });
+      });
+    })();
+  </script>
+
   <a class="wa-float" href={wa("Bonjour Mouna, je vous contacte depuis le site.")} target="_blank" rel="noopener" aria-label="Écrire sur WhatsApp">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.5L3 21l2-5.5A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.5 9.5c.5 2.5 2.5 4.5 5 5"/></svg>
     WhatsApp

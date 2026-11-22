@@ -148,67 +148,17 @@
   "sujet": "Salle a manger"
  },
  {
-  "recherche": "vintage dress mannequin",
-  "rang": 0,
-  "out": "tmp/robe-a.webp",
-  "ratio": "1:1",
-  "sujet": "candidat",
-  "apercu": true
- },
- {
   "recherche": "1950s dress",
-  "rang": 0,
-  "out": "tmp/robe-b.webp",
+  "fichier": "Tidens Samling - 1950s 07",
+  "out": "images/objets/robes-vintage.webp",
   "ratio": "1:1",
-  "sujet": "candidat",
-  "apercu": true
- },
- {
-  "recherche": "dress form vintage",
-  "rang": 0,
-  "out": "tmp/robe-c.webp",
-  "ratio": "1:1",
-  "sujet": "candidat",
-  "apercu": true
- },
- {
-  "recherche": "robe ancienne musée",
-  "rang": 0,
-  "out": "tmp/robe-d.webp",
-  "ratio": "1:1",
-  "sujet": "candidat",
-  "apercu": true
- },
- {
-  "recherche": "plaster medallion",
-  "rang": 0,
-  "out": "tmp/med-a.webp",
-  "ratio": "1:1",
-  "sujet": "candidat",
-  "apercu": true
- },
- {
-  "recherche": "stucco medallion",
-  "rang": 0,
-  "out": "tmp/med-b.webp",
-  "ratio": "1:1",
-  "sujet": "candidat",
-  "apercu": true
+  "sujet": "Robes vintage"
  },
  {
   "recherche": "ceiling rose plaster",
-  "rang": 0,
-  "out": "tmp/med-c.webp",
+  "fichier": "Dining room from Lansdowne House",
+  "out": "images/objets/medaillon-platre.webp",
   "ratio": "1:1",
-  "sujet": "candidat",
-  "apercu": true
- },
- {
-  "recherche": "médaillon plâtre",
-  "rang": 0,
-  "out": "tmp/med-d.webp",
-  "ratio": "1:1",
-  "sujet": "candidat",
-  "apercu": true
+  "sujet": "Medaillon en platre"
  }
 ]

@@ -115,7 +115,7 @@ def main():
             continue
         c = liste[it.get("rang", 0)]
         if it.get("fichier"):
-            c = next((x for x in liste if x["titre"] == it["fichier"]), None)
+            c = next((x for x in liste if x["titre"] == it["fichier"] or x["titre"].startswith(it["fichier"])), None)
             if not c:
                 log(f"AUCUN fichier {it['fichier']}")
                 continue
