@@ -43,6 +43,18 @@ def telecharge(id_):
         f"https://unsplash.com/photos/{id_}/download?force=true&w=2000",
         f"https://unsplash.com/photos/{id_}/download",
     ]
+    # La page publique de la photo indique l'adresse du fichier (og:image).
+    try:
+        req = urllib.request.Request(f"https://unsplash.com/photos/{id_}", headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124 Safari/537.36", "Accept-Language": "fr,en"})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            html = r.read().decode("utf-8", "ignore")
+        import re
+        m = re.search(r'https://images\.unsplash\.com/photo-[A-Za-z0-9_-]+', html) or re.search(r'https://plus\.unsplash\.com/premium_photo-[A-Za-z0-9_-]+', html)
+        log(f"  page {id_} -> {'trouve ' + m.group(0) if m else 'pas d image'}")
+        if m:
+            essais.insert(0, m.group(0) + "?w=2000&q=85&fm=jpg")
+    except Exception as e:
+        log(f"  page {id_} -> ERREUR {e}")
     for url in essais:
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124 Safari/537.36", "Accept": "image/*,*/*"})
         try:
