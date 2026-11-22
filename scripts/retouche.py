@@ -1,14 +1,58 @@
-"""Telecharge les photos libres de droits (licence Unsplash) listees dans
-scripts/images.json et les retouche pour l'ambiance de la boutique :
-recadrage, tons chauds, contraste doux, leger vignettage, format WebP.
-Ne retelecharge pas une image deja presente."""
-import io, json, sys, urllib.request
+"""Cherche des photos libres sur Wikimedia Commons (domaine public, CC0,
+CC BY, CC BY-SA) d'apres scripts/images.json, puis les retouche pour
+l'ambiance de la boutique : recadrage, tons chauds, contraste doux,
+leger vignettage, format WebP. Les credits sont ecrits dans
+src/content/credits.json. Une image deja presente n'est pas refaite."""
+import io, json, re, urllib.parse, urllib.request
 from pathlib import Path
 from PIL import Image, ImageEnhance, ImageFilter, ImageOps
 
 ROOT = Path(__file__).resolve().parent.parent
 PUBLIC = ROOT / "public"
+CREDITS = ROOT / "src" / "content" / "credits.json"
+UA = "LesObjetsDuAzart-site/1.0 (https://github.com/AnasMba19/les-objets-du-azart)"
 LARGEUR = {"1:1": 1200, "4:5": 1200, "4:3": 1400}
+LICENCES = ("cc0", "public domain", "pd", "cc by", "cc-by")
+JOURNAL = []
+
+def log(m):
+    print(m)
+    JOURNAL.append(m)
+
+def get(url):
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        return r.read()
+
+def texte(v):
+    return re.sub(r"<[^>]+>", "", v or "").strip()
+
+def candidats(recherche):
+    params = {
+        "action": "query", "format": "json", "generator": "search",
+        "gsrsearch": f"{recherche} filetype:bitmap", "gsrnamespace": "6", "gsrlimit": "30",
+        "prop": "imageinfo", "iiprop": "url|size|mime|extmetadata", "iiurlwidth": "2000",
+    }
+    data = json.loads(get("https://commons.wikimedia.org/w/api.php?" + urllib.parse.urlencode(params)))
+    pages = sorted(data.get("query", {}).get("pages", {}).values(), key=lambda p: p.get("index", 99))
+    for p in pages:
+        ii = (p.get("imageinfo") or [{}])[0]
+        meta = ii.get("extmetadata", {})
+        lic = texte(meta.get("LicenseShortName", {}).get("value", "")).lower()
+        if ii.get("mime") != "image/jpeg" or ii.get("width", 0) < 1200 or ii.get("height", 0) < 900:
+            continue
+        if not lic.startswith(LICENCES) or "nc" in lic or "nd" in lic:
+            continue
+        cat = texte(meta.get("Categories", {}).get("value", "")).lower()
+        if any(m in cat for m in ("paintings", "drawings", "engravings", "logos")):
+            continue
+        yield {
+            "url": ii.get("thumburl") or ii["url"],
+            "page": ii.get("descriptionurl"),
+            "titre": p["title"].removeprefix("File:"),
+            "auteur": texte(meta.get("Artist", {}).get("value", "")) or "Auteur inconnu",
+            "licence": texte(meta.get("LicenseShortName", {}).get("value", "")),
+        }
 
 def recadre(img, ratio):
     w, h = (int(x) for x in ratio.split(":"))
@@ -20,70 +64,46 @@ def chaud(img):
     b = b.point(lambda v: int(v * 0.92))
     img = Image.merge("RGB", (r, g, b))
     img = ImageEnhance.Color(img).enhance(0.88)
-    img = ImageEnhance.Contrast(img).enhance(1.06)
-    return img
+    return ImageEnhance.Contrast(img).enhance(1.06)
 
 def vignette(img, force=0.28):
     w, h = img.size
     masque = Image.new("L", (w, h), 0)
-    interieur = Image.new("L", (int(w * 0.8), int(h * 0.8)), 255)
-    masque.paste(interieur, (int(w * 0.1), int(h * 0.1)))
+    masque.paste(Image.new("L", (int(w * 0.8), int(h * 0.8)), 255), (int(w * 0.1), int(h * 0.1)))
     masque = masque.filter(ImageFilter.GaussianBlur(min(w, h) // 5))
-    sombre = ImageEnhance.Brightness(img).enhance(1 - force)
-    return Image.composite(img, sombre, masque)
-
-JOURNAL = []
-
-def log(m):
-    print(m)
-    JOURNAL.append(m)
-
-def telecharge(id_):
-    essais = [
-        f"https://unsplash.com/photos/{id_}/download?force=true&w=2000",
-        f"https://unsplash.com/photos/{id_}/download",
-    ]
-    # La page publique de la photo indique l'adresse du fichier (og:image).
-    try:
-        req = urllib.request.Request(f"https://unsplash.com/photos/{id_}", headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124 Safari/537.36", "Accept-Language": "fr,en"})
-        with urllib.request.urlopen(req, timeout=60) as r:
-            html = r.read().decode("utf-8", "ignore")
-        import re
-        m = re.search(r'https://images\.unsplash\.com/photo-[A-Za-z0-9_-]+', html) or re.search(r'https://plus\.unsplash\.com/premium_photo-[A-Za-z0-9_-]+', html)
-        log(f"  page {id_} -> {'trouve ' + m.group(0) if m else 'pas d image'}")
-        if m:
-            essais.insert(0, m.group(0) + "?w=2000&q=85&fm=jpg")
-    except Exception as e:
-        log(f"  page {id_} -> ERREUR {e}")
-    for url in essais:
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124 Safari/537.36", "Accept": "image/*,*/*"})
-        try:
-            with urllib.request.urlopen(req, timeout=60) as r:
-                data = r.read()
-                log(f"  {url} -> {r.status} {r.headers.get('Content-Type')} {len(data)} o via {r.geturl()[:90]}")
-                if data[:4] in (b"\xff\xd8\xff\xe0", b"\xff\xd8\xff\xe1", b"\xff\xd8\xff\xdb") or data[:4] == b"\x89PNG" or b"WEBP" in data[:16] or data[:3] == b"\xff\xd8\xff":
-                    return data
-        except Exception as e:
-            log(f"  {url} -> ERREUR {e}")
-    return None
+    return Image.composite(img, ImageEnhance.Brightness(img).enhance(1 - force), masque)
 
 def main():
     items = json.loads((ROOT / "scripts" / "images.json").read_text())
+    credits = json.loads(CREDITS.read_text()) if CREDITS.exists() else []
+    connus = {c["id"] for c in credits}
     fait = 0
     for it in items:
         cible = PUBLIC / it["out"]
         if cible.exists():
             continue
-        data = telecharge(it["id"])
-        if not data:
-            log(f"ECHEC {it['id']}")
+        try:
+            liste = list(candidats(it["recherche"]))
+        except Exception as e:
+            log(f"ECHEC recherche {it['recherche']}: {e}")
             continue
-        img = Image.open(io.BytesIO(data)).convert("RGB")
+        if len(liste) <= it.get("rang", 0):
+            log(f"AUCUN resultat pour {it['recherche']} ({len(liste)})")
+            continue
+        c = liste[it.get("rang", 0)]
+        try:
+            img = Image.open(io.BytesIO(get(c["url"]))).convert("RGB")
+        except Exception as e:
+            log(f"ECHEC telechargement {c['url']}: {e}")
+            continue
         img = vignette(chaud(recadre(img, it["ratio"])))
         cible.parent.mkdir(parents=True, exist_ok=True)
         img.save(cible, "WEBP", quality=80, method=6)
-        log(f"ok {it['out']} ({cible.stat().st_size // 1024} Ko)")
+        credits = [x for x in credits if x["id"] != it["out"]]
+        credits.append({"id": it["out"], "sujet": it["sujet"], "titre": c["titre"], "auteur": c["auteur"], "licence": c["licence"], "source": c["page"]})
+        log(f"ok {it['out']} <- {c['titre']} ({c['licence']})")
         fait += 1
+    CREDITS.write_text(json.dumps(sorted(credits, key=lambda x: x["id"]), ensure_ascii=False, indent=1) + "\n")
     log(f"{fait} image(s) traitee(s)")
     (PUBLIC / "journal-photos.txt").write_text("\n".join(JOURNAL) + "\n")
 

@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import credits from '../content/credits.json';
+---
+<Base page="credits" titre="Crédits photos" description="Crédits des photographies utilisées sur le site des objets du Az'art." noindex>
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Crédits</span>
+      <h1>Crédits photos</h1>
+      <p>Certaines photos d'illustration proviennent de Wikimedia Commons, sous licence libre. Elles ont été recadrées et retouchées (couleurs, lumière) pour le site.</p>
+    </div>
+  </section>
+  <section class="wrap" style="padding-bottom:90px">
+    {credits.length === 0 ? <p class="muted">Aucune photo externe pour le moment.</p> : (
+      <div class="panel infos">
+        <dl>
+          {credits.map((c) => (
+            <><dt>{c.sujet}</dt><dd>{c.auteur}, <a href={c.source} target="_blank" rel="noopener">{c.titre}</a>, {c.licence}, modifiée</dd></>
+          ))}
+        </dl>
+      </div>
+    )}
+  </section>
+</Base>
