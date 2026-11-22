@@ -22,13 +22,14 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Store',
   name: site.nom,
-  description: "Brocante, créations artisanales et friperie au cœur d'Alençon. Débarras, estimation, achat et dépôt-vente.",
+  description: "Brocante, créations artisanales et friperie dans le quartier Lancrel à Alençon. Débarras, estimation, achat et dépôt-vente.",
   url: site.url,
   telephone: '+' + site.whatsapp,
   email: site.email,
+  openingHours: ['Fr 14:30-19:00', 'Sa 10:00-12:00', 'Sa 14:00-19:00'],
   address: {
     '@type': 'PostalAddress',
-    ...(site.adresse ? { streetAddress: site.adresse } : {}),
+    streetAddress: site.adresse,
     addressLocality: site.ville,
     postalCode: site.codePostal,
     addressRegion: 'Normandie',
@@ -89,7 +90,8 @@ const jsonLd = {
       <div class="footer-grid">
         <div>
           <h4>{site.nom}</h4>
-          <p>Brocante, créations faites main et friperie au cœur d'{site.ville}. Chaque objet a une histoire à raconter.</p>
+          <p>Brocante, créations faites main et friperie à {site.ville}, quartier {site.quartier}. Chaque objet a une histoire à raconter.</p>
+          <p>{site.adresse}<br />{site.codePostal} {site.ville}</p>
         </div>
         <div>
           <h4>Visiter</h4>

@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { site, wa } from '../site.config';
 
-const mapQuery = encodeURIComponent(site.adresse || `${site.nom} ${site.ville}`);
+const mapQuery = encodeURIComponent(`${site.adresse}, ${site.codePostal} ${site.ville}`);
 ---
 <Base page="contact" titre="Contact et présentation" description="Contactez Les objets du Az'art à Alençon : WhatsApp, téléphone, e-mail. Envoyez vos photos pour une estimation ou un débarras.">
   <section class="page-head">
@@ -15,17 +15,18 @@ const mapQuery = encodeURIComponent(site.adresse || `${site.nom} ${site.ville}`)
   <section class="wrap split" style="padding-bottom:60px">
     <div>
       <h2>Qui est derrière le comptoir&nbsp;?</h2>
-      <p class="muted">Derrière Les objets du Az'art, il y a Mouna et sa passion pour la chine. Des années à dénicher des pièces qui ont du caractère, à leur redonner de l'éclat et à les faire passer de main en main.</p>
-      <p class="muted">Avec le temps, l'envie de créer est venue s'ajouter à celle de chiner : bougies, abat-jours, plâtre et céramique sont nés à l'atelier. La boutique réunit aujourd'hui ces deux mondes, l'ancien et le fait main, au cœur d'Alençon.</p>
+      <p class="muted">Derrière Les objets du Az'art, il y a Mouna, brocanteuse dans l'âme. Passionnée de décoration, d'antiquités et de belles pièces anciennes, elle parcourt les villes et les vide-greniers à la recherche de trésors oubliés.</p>
+      <p class="muted">En mai 2024, elle concrétise un rêve mûri depuis des années en ouvrant sa boutique dans les anciens locaux de la fleuriste du quartier Lancrel. Elle y choisit chaque objet au coup de cœur, avec une conviction simple : le beau nourrit l'âme.</p>
+      <p class="muted">Avec le temps, l'envie de créer s'est ajoutée à celle de chiner : bougies, abat-jours, plâtre et céramique naissent aujourd'hui à l'atelier, aux côtés des trouvailles anciennes.</p>
     </div>
     <div class="panel infos">
       <dl>
-        <dt>Adresse</dt><dd>{site.adresse || `${site.ville} (adresse à venir)`}</dd>
+        <dt>Adresse</dt><dd>{site.adresse}<br />{site.codePostal} {site.ville} (quartier {site.quartier})</dd>
         <dt>WhatsApp</dt><dd><a href={wa('Bonjour Mouna,')} target="_blank" rel="noopener">{site.telephone}</a></dd>
         <dt>Téléphone</dt><dd>{site.telephone}</dd>
         <dt>E-mail</dt><dd>{site.email}</dd>
         <dt>Horaires</dt>
-        <dd>{site.horaires.length ? site.horaires.map((h) => <div>{h.jours} : {h.heures}</div>) : 'Sur WhatsApp, nous vous répondons rapidement.'}</dd>
+        <dd>{site.horaires.map((h) => <div>{h.jours} : {h.heures}</div>)}{site.horairesNote && <div class="muted" style="font-size:.88rem;margin-top:6px">{site.horairesNote}</div>}</dd>
       </dl>
     </div>
   </section>
