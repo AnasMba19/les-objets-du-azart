@@ -1,5 +1,45 @@
 [
  {
+  "id": "images/alencon/halle-au-ble.webp",
+  "sujet": "Halle au Ble",
+  "titre": "Normandie Alençon. La Halle au Blé. 19é siecle. Jpeg.jpg",
+  "auteur": "Philippestg",
+  "licence": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Normandie_Alen%C3%A7on._La_Halle_au_Bl%C3%A9._19%C3%A9_siecle._Jpeg.jpg"
+ },
+ {
+  "id": "images/alencon/musee-dentelle.webp",
+  "sujet": "Musee des Beaux-Arts et de la Dentelle",
+  "titre": "Alençon - Ancien collège des Jésuites - 1.jpg",
+  "auteur": "This illustration was made by Peter Potrowl.\nPlease credit this with : © Peter Potrowl in the immediate vicinity of the image. A link to my website sitemai.eu would be much appreciated but isn't mandatory.\nAn email to\n\nPeter Potrowl would be appreciated too.\nDo not copy this image illegally by ignoring the terms of the license below, as it is not in the public domain.\nIf you would like special permission to use, license, or purchase the image please contact me Peter Potrowl to negotiate terms.\nMore free pictures in my website. Donations are accepted here and here.",
+  "licence": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Alen%C3%A7on_-_Ancien_coll%C3%A8ge_des_J%C3%A9suites_-_1.jpg"
+ },
+ {
+  "id": "images/alencon/notre-dame.webp",
+  "sujet": "Basilique Notre-Dame",
+  "titre": "Alençon (Orne) - Basilique Notre-Dame - Verrière haute (vers 1530) - 52860679701.jpg",
+  "auteur": "Morio60",
+  "licence": "CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Alen%C3%A7on_(Orne)_-_Basilique_Notre-Dame_-_Verri%C3%A8re_haute_(vers_1530)_-_52860679701.jpg"
+ },
+ {
+  "id": "images/alencon/point-alencon.webp",
+  "sujet": "Point d'Alencon",
+  "titre": "Alençon - Dentelle en point d'Alençon au musée de la dentelle - 1.jpg",
+  "auteur": "This illustration was made by Peter Potrowl.\nPlease credit this with : © Peter Potrowl in the immediate vicinity of the image. A link to my website sitemai.eu would be much appreciated but isn't mandatory.\nAn email to\n\nPeter Potrowl would be appreciated too.\nDo not copy this image illegally by ignoring the terms of the license below, as it is not in the public domain.\nIf you would like special permission to use, license, or purchase the image please contact me Peter Potrowl to negotiate terms.\nMore free pictures in my website. Donations are accepted here and here.",
+  "licence": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Alen%C3%A7on_-_Dentelle_en_point_d%27Alen%C3%A7on_au_mus%C3%A9e_de_la_dentelle_-_1.jpg"
+ },
+ {
+  "id": "images/alencon/saint-leonard.webp",
+  "sujet": "Quartier Saint-Leonard",
+  "titre": "Logis Saint-Léonard - Alençon 6.JPG",
+  "auteur": "Romain Bréget",
+  "licence": "CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Logis_Saint-L%C3%A9onard_-_Alen%C3%A7on_6.JPG"
+ },
+ {
   "id": "images/nous-chez-vous/friperie.webp",
   "sujet": "Vetements vintage",
   "titre": "Inside the second hand shop, clothing racks.jpg",
@@ -14,6 +54,14 @@
   "auteur": "GAlexandrova",
   "licence": "CC BY-SA 4.0",
   "source": "https://commons.wikimedia.org/wiki/File:8184.3._Living_room_of_the_Minerva.jpg"
+ },
+ {
+  "id": "images/nous-chez-vous/salle-a-manger.webp",
+  "sujet": "Salle a manger",
+  "titre": "Bunratty Park - Site ^9 - Golden Vale Farmhouse - Dining Room - geograph.org.uk - 3046637.jpg",
+  "auteur": "Joseph Mischyshyn",
+  "licence": "CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Bunratty_Park_-_Site_%5E9_-_Golden_Vale_Farmhouse_-_Dining_Room_-_geograph.org.uk_-_3046637.jpg"
  },
  {
   "id": "images/nous-chez-vous/theiere-fenetre.webp",
