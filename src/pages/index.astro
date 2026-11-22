@@ -2,12 +2,14 @@
 import Base from '../layouts/Base.astro';
 import Illustration from '../components/Illustration.astro';
 import ObjetCard from '../components/ObjetCard.astro';
+import { numeros } from '../lib/numero';
 import Dentelle from '../components/Dentelle.astro';
 import { getCollection } from 'astro:content';
 import { site, categories, wa } from '../site.config';
 import { dispo, photosDispo } from '../lib/photo';
 
 const tous = await getCollection('objets');
+const lots = numeros(tous);
 const objets = tous
   .filter((o) => o.data.statut !== 'vendu')
   .sort((a, b) => b.data.ajoute.getTime() - a.data.ajoute.getTime())
@@ -20,25 +22,24 @@ const photoVisite = 'images/objets/bureau-ancien.webp';
 const lienArrivages = site.chaineWhatsapp || wa("Bonjour Mouna, pouvez-vous m'ajouter à la liste des arrivages ?");
 ---
 <Base page="accueil" titre="Accueil" description="Brocante et art de vivre à Alençon, quartier Lancrel : mobilier, luminaires, vaisselle ancienne, pièces uniques, créations faites main et friperie. Débarras, estimation, achat et dépôt-vente.">
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <span class="eyebrow">Brocante et art de vivre, à Alençon</span>
-        <h1>Chaque objet a une histoire à raconter.</h1>
-        <p class="hero-quote">Parce que le hasard fait souvent bien les choses, la boutique Les objets du Az'art vous ouvre ses portes. Collectionneur, amateur de déco vintage ou simplement curieux, laissez-vous porter par le charme de l'ancien.</p>
+  <section class="frontispice">
+    <div class="wrap">
+      <div class="cartouche">
+        <span class="eyebrow">Brocante &amp; art de vivre</span>
+        <h1>Les objets du Az'art</h1>
+        <p class="sous">Chaque objet a une histoire à raconter. Collectionneur, amateur de déco vintage ou simplement curieux, laissez-vous porter par le charme de l'ancien.</p>
+        <div class="fleuron" aria-hidden="true"><span>❧</span></div>
+        <p class="meta">Alençon, quartier Lancrel, depuis MMXXIV</p>
         <div class="actions">
-          <a class="btn btn-primary" href="boutique.html">Découvrir la boutique</a>
+          <a class="btn btn-primary" href="boutique.html">Feuilleter le catalogue</a>
           <a class="btn" href="services.html">Débarras et estimation</a>
         </div>
       </div>
-      {dispo(grande) ? (
-        <figure class="arcade">
-          <div class="cadre"><img src={grande} alt="Lustre ancien dans un salon" /></div>
-          {dispo(medaillon) && <div class="medaillon"><img src={medaillon} alt="Service à thé en porcelaine" /></div>}
-          <figcaption>Photos d'illustration</figcaption>
-        </figure>
-      ) : (
-        <figure class="hero-art"><Illustration nom="interieur" label="La boutique" /></figure>
+      {dispo(grande) && (
+        <div class="gravure-hero">
+          <figure class="gravure"><div class="img"><img src={grande} alt="Lustre ancien dans un salon" /></div><figcaption>Planche I. Lustre à pampilles, salon d'apparat. Photo d'illustration.</figcaption></figure>
+          {dispo(medaillon) && <figure class="gravure"><div class="img" style="aspect-ratio:1"><img src={medaillon} alt="Service à thé en porcelaine" /></div><figcaption>Planche II. Porcelaine.</figcaption></figure>}
+        </div>
       )}
     </div>
   </section>
@@ -48,14 +49,12 @@ const lienArrivages = site.chaineWhatsapp || wa("Bonjour Mouna, pouvez-vous m'aj
   {objets.length > 0 && (
     <section class="section">
       <div class="wrap">
-        <div class="section-head" style="display:flex;justify-content:space-between;align-items:end;max-width:none;gap:20px;flex-wrap:wrap">
-          <div>
-            <span class="eyebrow">Fraîchement chinés</span>
-            <h2 style="margin:0">Derniers arrivages</h2>
-          </div>
-          <a class="btn" href="boutique.html">Voir toute la boutique</a>
+        <div class="section-head">
+          <span class="eyebrow">Nouvelles entrées au catalogue</span>
+          <h2>Derniers arrivages</h2>
         </div>
-        <div class="grid">{objets.map((o) => <ObjetCard objet={o} />)}</div>
+        <div class="grid">{objets.map((o) => <ObjetCard objet={o} lot={lots.get(o.id)} />)}</div>
+        <div class="actions" style="justify-content:center;margin-top:40px"><a class="btn" href="boutique.html">Voir tout le catalogue</a></div>
       </div>
     </section>
   )}
@@ -71,17 +70,17 @@ const lienArrivages = site.chaineWhatsapp || wa("Bonjour Mouna, pouvez-vous m'aj
 
   <section class="section">
     <div class="wrap">
-      <div class="section-head" style="text-align:center;margin-inline:auto">
+      <div class="section-head">
         <h2>Quatre façons de chiner</h2>
         <p class="muted">La chine classique d'un côté, les créations de l'atelier de l'autre.</p>
       </div>
       <div class="univers-photo">
-        {Object.entries(categories).map(([id, c]) => {
+        {Object.entries(categories).map(([id, c], i) => {
           const ph = photoUnivers(id);
           return (
             <a href={`boutique.html#${id}`}>
               <div class="arc">{ph ? <img src={ph} alt="" loading="lazy" /> : <Illustration nom={c.illustration} label={c.nom} />}</div>
-              <div class="txt"><h3>{c.nom}</h3><p>{c.texte}</p></div>
+              <div class="txt"><span class="num">Chapitre {["I", "II", "III", "IV"][i]}</span><h3>{c.nom}</h3><p>{c.texte}</p></div>
             </a>
           );
         })}
@@ -94,7 +93,7 @@ const lienArrivages = site.chaineWhatsapp || wa("Bonjour Mouna, pouvez-vous m'aj
       <div class="info">
         <span class="eyebrow">Passer à la boutique</span>
         <h2>Venez chiner sur place</h2>
-        <p class="muted">Les plus belles trouvailles se découvrent en vrai. La boutique vous attend dans le quartier Lancrel.</p>
+        <p class="lettrine">Les plus belles trouvailles se découvrent en vrai. La boutique vous attend dans le quartier Lancrel, dans les anciens locaux de la fleuriste, entre meubles chinés, porcelaines et créations de l'atelier.</p>
         <dl>
           <dt>Adresse</dt><dd>{site.adresse}, {site.codePostal} {site.ville}</dd>
           {site.horaires.map((h) => <><dt>{h.jours}</dt><dd>{h.heures}</dd></>)}

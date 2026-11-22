@@ -1,11 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import ObjetCard from '../components/ObjetCard.astro';
+import { numeros } from '../lib/numero';
 import { getCollection } from 'astro:content';
 import { categories, wa } from '../site.config';
 
 const ordre = { disponible: 0, reserve: 1, vendu: 2 };
-const objets = (await getCollection('objets')).sort(
+const tous = await getCollection('objets');
+const lots = numeros(tous);
+const objets = [...tous].sort(
   (a, b) => ordre[a.data.statut] - ordre[b.data.statut] || b.data.ajoute.getTime() - a.data.ajoute.getTime(),
 );
 ---
@@ -35,7 +38,7 @@ const objets = (await getCollection('objets')).sort(
       </div>
     </div>
     <div class="grid" id="grille">
-      {objets.map((o) => <ObjetCard objet={o} />)}
+      {objets.map((o) => <ObjetCard objet={o} lot={lots.get(o.id)} />)}
     </div>
     <div class="empty" id="vide" hidden>
       <p>Pas de pièce en ligne dans cet univers pour le moment.</p>

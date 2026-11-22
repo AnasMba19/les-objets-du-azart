@@ -4,8 +4,8 @@ import { categories } from '../site.config';
 import type { CollectionEntry } from 'astro:content';
 import { photosDispo } from '../lib/photo';
 
-interface Props { objet: CollectionEntry<'objets'> }
-const { objet } = Astro.props;
+interface Props { objet: CollectionEntry<'objets'>; lot?: string }
+const { objet, lot } = Astro.props;
 const d = objet.data;
 const cat = categories[d.categorie];
 const photos = photosDispo(d.photos);
@@ -19,7 +19,8 @@ const statutLabel = { disponible: '', reserve: 'Réservé', vendu: 'Vendu' }[d.s
       {statutLabel ? <span class={`badge ${d.statut}`}>{statutLabel}</span> : photos.length > 0 && d.exemple && <span class="illus-note">Photo d'illustration</span>}
     </div>
     <div class="card-body">
-      <span class="card-cat">{cat.nom}{nouveau && <span class="nouveau-txt">, nouvel arrivage</span>}</span>
+      {lot && <span class="lot">Lot n° {lot}{nouveau && <span class="nouveau-txt">, nouveauté</span>}</span>}
+      <span class="card-cat">{cat.nom}</span>
       <h3>{d.titre}</h3>
       {d.prix ? <span class="card-price">{d.prix} €</span> : <span class="card-price sur-demande">Prix sur demande</span>}
     </div>

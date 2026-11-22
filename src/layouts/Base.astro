@@ -54,11 +54,12 @@ const jsonLd = {
   <meta property="og:site_name" content={site.nom} />
   <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={description} />
-  <meta name="theme-color" content="#1b1c16" />
+  <meta name="theme-color" content="#efe3c8" />
+  <script is:inline>try{if(localStorage.getItem("azart-theme")==="veillee")document.documentElement.dataset.theme="veillee"}catch(e){}</script>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400;0,500;1,400&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </head>
 <body>
@@ -70,12 +71,13 @@ const jsonLd = {
     <div class="wrap">
       <a class="logo" href="index.html">
         <strong>{site.nom}</strong>
-        <span>Brocante, créations et friperie</span>
+        <span>Brocante &amp; art de vivre</span>
       </a>
       <nav class="nav" aria-label="Navigation principale">
         {nav.map((n) => <a href={n.href} aria-current={n.id === page ? 'page' : undefined}>{n.label}</a>)}
       </nav>
       <div class="header-tools">
+        <button class="theme-btn" type="button" id="theme-btn" aria-label="Changer l'ambiance"><span aria-hidden="true">☾</span><span class="txt">Veillée</span></button>
         <a class="lang" href="english.html" hreflang="en" lang="en">EN</a>
         <button class="sel-btn" type="button" data-ouvrir-selection aria-label="Ma sélection">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
@@ -178,6 +180,15 @@ const jsonLd = {
       });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') ouvrir(false); });
       majTout();
+      var tb = document.getElementById('theme-btn');
+      function libTheme() { var v = document.documentElement.dataset.theme === 'veillee'; tb.querySelector('.txt').textContent = v ? 'Jour' : 'Veillée'; tb.firstElementChild.textContent = v ? '☀' : '☾'; }
+      tb.addEventListener('click', function () {
+        var v = document.documentElement.dataset.theme === 'veillee';
+        if (v) delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = 'veillee';
+        try { localStorage.setItem('azart-theme', v ? 'jour' : 'veillee'); } catch (e) {}
+        libTheme();
+      });
+      libTheme();
     })();
   </script>
 

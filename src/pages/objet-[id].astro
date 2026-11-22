@@ -5,6 +5,7 @@ import ObjetCard from '../components/ObjetCard.astro';
 import { getCollection, render } from 'astro:content';
 import { site, categories } from '../site.config';
 import { photosDispo } from '../lib/photo';
+import { numeros } from '../lib/numero';
 
 export async function getStaticPaths() {
   const objets = await getCollection('objets');
@@ -16,6 +17,7 @@ const d = objet.data;
 const cat = categories[d.categorie];
 const { Content } = await render(objet);
 const photos = photosDispo(d.photos);
+const lots = numeros(tous);
 const autres = tous.filter((o) => o.data.categorie === d.categorie && o.id !== objet.id && o.data.statut !== 'vendu').slice(0, 3);
 const resume = (objet.body ?? '').replace(/\s+/g, ' ').trim().slice(0, 150);
 const pageUrl = `${site.url}/objet-${objet.id}.html`;
@@ -38,7 +40,8 @@ const pageUrl = `${site.url}/objet-${objet.id}.html`;
       </div>
       <div>
         <a class="eyebrow" href={`boutique.html#${d.categorie}`} style="text-decoration:none">{cat.nom}</a>
-        <h1 style="font-size:clamp(2.2rem,5vw,3.4rem)">{d.titre}</h1>
+        <span class="lot" style="display:block;margin-bottom:6px">Lot n° {lots.get(objet.id)}</span>
+        <h1 style="font-size:clamp(2.4rem,5vw,3.8rem)">{d.titre}</h1>
         <p class="price">{d.prix ? `${d.prix} €` : 'Prix sur demande'}</p>
         <div class="muted"><Content /></div>
         {(d.dimensions || d.epoque) && (
@@ -79,7 +82,7 @@ const pageUrl = `${site.url}/objet-${objet.id}.html`;
     {autres.length > 0 && (
       <section style="padding-bottom:80px">
         <h2>Dans le même univers</h2>
-        <div class="grid">{autres.map((o) => <ObjetCard objet={o} />)}</div>
+        <div class="grid">{autres.map((o) => <ObjetCard objet={o} lot={lots.get(o.id)} />)}</div>
       </section>
     )}
   </div>

@@ -9,7 +9,7 @@ const heures = (h: string) => h.replace('sur rendez-vous', 'by appointment').rep
 ---
 <Base page="english" lang="en" titre="Antiques, vintage and handmade in Alençon" description="Les objets du Az'art: antiques, vintage homeware, handmade creations and second-hand clothing in Alençon, Normandy. House clearance and valuations. Message us on WhatsApp.">
   <section class="hero">
-    <div class="wrap hero-grid">
+    <div class="wrap split" style="align-items:center">
       <div>
         <span class="eyebrow">Antiques and art de vivre in Alençon, Normandy</span>
         <h1>Every object has a story to tell.</h1>
@@ -19,7 +19,7 @@ const heures = (h: string) => h.replace('sur rendez-vous', 'by appointment').rep
           <a class="btn" href="boutique.html">Browse the shop (in French)</a>
         </div>
       </div>
-      {dispo(ph) && <figure class="arcade"><div class="cadre"><img src={ph} alt="Antique chandelier in a living room" /></div><figcaption>Illustrative photo</figcaption></figure>}
+      {dispo(ph) && <figure class="gravure"><div class="img" style="aspect-ratio:4/5"><img src={ph} alt="Antique chandelier in a living room" /></div><figcaption>Illustrative photo</figcaption></figure>}
     </div>
   </section>
   <Dentelle />
