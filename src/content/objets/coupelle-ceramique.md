@@ -1,6 +1,7 @@
 ---
 titre: Coupelle en céramique
 categorie: atelier
+photos: [images/objets/coupelle-ceramique.webp]
 illustration: coupelle
 emballageCadeau: true
 ajoute: 2026-11-06

@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Illustration from '../components/Illustration.astro';
 import { getCollection } from 'astro:content';
 import { wa } from '../site.config';
+import { dispo } from '../lib/photo';
 
 const photos = await getCollection('chezVous');
 ---
@@ -19,7 +20,7 @@ const photos = await getCollection('chezVous');
     <div class="gallery">
       {photos.map((p) => (
         <figure>
-          {p.data.photo ? <img src={p.data.photo} alt={p.data.legende} loading="lazy" /> : <div class="ph"><Illustration nom={p.data.illustration ?? 'interieur'} label={p.data.legende} /></div>}
+          {dispo(p.data.photo) ? <img src={p.data.photo} alt={p.data.legende} loading="lazy" /> : <div class="ph"><Illustration nom={p.data.illustration ?? 'interieur'} label={p.data.legende} /></div>}
           <figcaption>{p.data.legende}{p.data.prenom && <> · <strong>{p.data.prenom}{p.data.ville && `, ${p.data.ville}`}</strong></>}</figcaption>
         </figure>
       ))}

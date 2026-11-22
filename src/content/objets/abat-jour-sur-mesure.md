@@ -1,6 +1,7 @@
 ---
 titre: Abat-jour sur mesure
 categorie: atelier
+photos: [images/objets/lampe-abat-jour.webp]
 illustration: abatjour
 emballageCadeau: true
 ajoute: 2026-11-17

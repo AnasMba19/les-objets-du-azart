@@ -53,3 +53,13 @@ Deux ou trois phrases simples et chaleureuses qui donnent envie.
   puis on supprime son fichier et ses photos.
 - Quand tous les objets d'exemple (`exemple: true`) ont ete remplaces,
   supprime-les et passe `bandeauExemples: false` dans `src/site.config.ts`.
+
+## Photos libres de droits
+
+Pour une photo d'ambiance ou d'illustration, ajoute une ligne dans
+`scripts/images.json` avec l'identifiant d'une photo Unsplash (fin de l'adresse
+de la photo), le chemin de sortie et le format (`1:1` objets, `4:3` galerie,
+`4:5` accueil). A la publication, le serveur la telecharge, la retouche
+(tons chauds, recadrage) et l'enregistre dans `public/images/`.
+Une photo d'illustration sur une fiche objet garde `exemple: true` :
+le site affiche alors la mention "Photo d'illustration".

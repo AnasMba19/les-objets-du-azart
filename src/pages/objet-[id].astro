@@ -4,6 +4,7 @@ import Illustration from '../components/Illustration.astro';
 import ObjetCard from '../components/ObjetCard.astro';
 import { getCollection, render } from 'astro:content';
 import { site, categories } from '../site.config';
+import { photosDispo } from '../lib/photo';
 
 export async function getStaticPaths() {
   const objets = await getCollection('objets');
@@ -14,6 +15,7 @@ const { objet, tous } = Astro.props;
 const d = objet.data;
 const cat = categories[d.categorie];
 const { Content } = await render(objet);
+const photos = photosDispo(d.photos);
 const autres = tous.filter((o) => o.data.categorie === d.categorie && o.id !== objet.id && o.data.statut !== 'vendu').slice(0, 3);
 const resume = (objet.body ?? '').replace(/\s+/g, ' ').trim().slice(0, 150);
 const pageUrl = `${site.url}/objet-${objet.id}.html`;
@@ -24,12 +26,13 @@ const pageUrl = `${site.url}/objet-${objet.id}.html`;
     <article class="objet">
       <div>
         <div class="objet-media" id="media">
-          {d.photos.length ? <img id="main-photo" src={d.photos[0]} alt={d.titre} /> : <Illustration nom={d.illustration ?? cat.illustration} label={d.titre} />}
+          {photos.length ? <img id="main-photo" src={photos[0]} alt={d.titre} /> : <Illustration nom={d.illustration ?? cat.illustration} label={d.titre} />}
           {d.statut !== 'disponible' && <span class={`badge ${d.statut}`}>{d.statut === 'vendu' ? 'Vendu' : 'Réservé'}</span>}
         </div>
-        {d.photos.length > 1 && (
+        {photos.length > 0 && d.exemple && <p class="muted" style="font-size:.85rem;margin:10px 0 0">Photo d'illustration : la pièce disponible en boutique peut différer.</p>}
+        {photos.length > 1 && (
           <div class="thumbs">
-            {d.photos.map((p, i) => <button type="button" data-src={p} aria-label={`Photo ${i + 1}`}><img src={p} alt="" loading="lazy" /></button>)}
+            {photos.map((p, i) => <button type="button" data-src={p} aria-label={`Photo ${i + 1}`}><img src={p} alt="" loading="lazy" /></button>)}
           </div>
         )}
       </div>

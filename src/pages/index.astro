@@ -4,6 +4,8 @@ import Illustration from '../components/Illustration.astro';
 import ObjetCard from '../components/ObjetCard.astro';
 import { getCollection } from 'astro:content';
 import { site, categories, wa } from '../site.config';
+import { dispo } from '../lib/photo';
+const hero = 'images/ambiance/boutique.webp';
 
 const objets = (await getCollection('objets'))
   .filter((o) => o.data.statut !== 'vendu')
@@ -23,8 +25,8 @@ const objets = (await getCollection('objets'))
         </div>
       </div>
       <figure class="hero-art reveal" style="animation-delay:.15s">
-        <Illustration nom="interieur" label="La boutique" />
-        <figcaption>La boutique, à Alençon</figcaption>
+        {dispo(hero) ? <img src={hero} alt="Intérieur de brocante" /> : <Illustration nom="interieur" label="La boutique" />}
+        <figcaption>{dispo(hero) ? "Photo d'illustration" : "La boutique, à Alençon"}</figcaption>
       </figure>
     </div>
   </section>

@@ -1,6 +1,7 @@
 ---
-titre: Bougie parfumée en verre ancien
+titre: Bougie parfumée en verre
 categorie: atelier
+photos: [images/objets/bougie-verre.webp]
 illustration: bougie
 emballageCadeau: true
 ajoute: 2026-11-21

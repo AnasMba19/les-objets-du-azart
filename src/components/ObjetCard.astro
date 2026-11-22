@@ -2,17 +2,20 @@
 import Illustration from './Illustration.astro';
 import { categories } from '../site.config';
 import type { CollectionEntry } from 'astro:content';
+import { photosDispo } from '../lib/photo';
 
 interface Props { objet: CollectionEntry<'objets'> }
 const { objet } = Astro.props;
 const d = objet.data;
 const cat = categories[d.categorie];
+const photos = photosDispo(d.photos);
 const statutLabel = { disponible: '', reserve: 'Réservé', vendu: 'Vendu' }[d.statut];
 ---
 <a class={`card ${d.statut === 'vendu' ? 'is-vendu' : ''}`} href={`objet-${objet.id}.html`} data-cat={d.categorie}>
   <div class="card-media">
-    {d.photos.length ? <img src={d.photos[0]} alt={d.titre} loading="lazy" /> : <Illustration nom={d.illustration ?? cat.illustration} label={d.titre} />}
+    {photos.length ? <img src={photos[0]} alt={d.titre} loading="lazy" /> : <Illustration nom={d.illustration ?? cat.illustration} label={d.titre} />}
     {statutLabel && <span class={`badge ${d.statut}`}>{statutLabel}</span>}
+    {photos.length > 0 && d.exemple && <span class="illus-note">Photo d'illustration</span>}
   </div>
   <div class="card-body">
     <span class="card-cat">{cat.court}</span>
