@@ -1,7 +1,6 @@
 ---
 titre: Robes vintage
 categorie: friperie
-photos: [images/objets/robes-vintage.webp]
 illustration: robe
 ajoute: 2026-11-16
 exemple: true

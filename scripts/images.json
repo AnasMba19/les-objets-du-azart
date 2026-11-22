@@ -8,11 +8,10 @@
  },
  {
   "recherche": "chandelier",
-  "rang": 0,
+  "rang": 5,
   "out": "images/objets/lustre-pampilles-laiton.webp",
   "ratio": "1:1",
-  "sujet": "Lustre ancien a pampilles",
-  "apercu": true
+  "sujet": "Lustre ancien a pampilles"
  },
  {
   "recherche": "antique writing desk",
@@ -23,11 +22,10 @@
  },
  {
   "recherche": "antique mirror",
-  "rang": 0,
+  "rang": 6,
   "out": "images/objets/miroir-dore.webp",
   "ratio": "1:1",
-  "sujet": "Miroir dore sculpte",
-  "apercu": true
+  "sujet": "Miroir dore sculpte"
  },
  {
   "recherche": "porcelain tea set",
@@ -84,14 +82,6 @@
   "out": "images/objets/coupelle-ceramique.webp",
   "ratio": "1:1",
   "sujet": "Coupelle en ceramique"
- },
- {
-  "recherche": "vintage dress",
-  "rang": 0,
-  "out": "images/objets/robes-vintage.webp",
-  "ratio": "1:1",
-  "sujet": "Robes vintage",
-  "apercu": true
  },
  {
   "recherche": "vintage handbag",
