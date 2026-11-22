@@ -366,3 +366,5 @@ p { margin: 0 0 1em; }
 @keyframes encre { from { opacity: 0; filter: blur(4px); transform: translateY(.2em); } to { opacity: 1; filter: none; transform: none; } }
 @media (hover: none), (pointer: coarse) { .manicule, .loupe { display: none; } }
 @media (prefers-reduced-motion: reduce) { .manicule, .loupe { display: none; } .frontispice h1 .l { opacity: 1; } }
+.manicule.haut span { animation: pointe-haut 1.1s ease-in-out infinite; }
+@keyframes pointe-haut { 0%, 100% { transform: rotate(-90deg) translateX(0); } 50% { transform: rotate(-90deg) translateX(5px); } }

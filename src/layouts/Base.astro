@@ -227,7 +227,11 @@ const jsonLd = {
       function pointer(el) {
         var r = el.getBoundingClientRect();
         if (r.width === 0) return;
-        m.style.transform = 'translate(' + (r.left - 42) + 'px,' + (r.top + r.height / 2 - 17) + 'px)';
+        var haut = !!el.closest('.header');
+        m.classList.toggle('haut', haut);
+        m.style.transform = haut
+          ? 'translate(' + (r.left + r.width / 2 - 14) + 'px,' + (r.bottom - 2) + 'px)'
+          : 'translate(' + (r.left - 42) + 'px,' + (r.top + r.height / 2 - 17) + 'px)';
         m.classList.add('vu');
         clearTimeout(minuteur);
       }
