@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, wa } from '../site.config';
+---
+<Base page="services" titre="Débarras, estimation, achat et dépôt-vente" description="Vidage et débarras de maisons, caves et greniers à Alençon et alentours. Estimation d'objets anciens, achat au comptant et dépôt-vente. Devis sur photos par WhatsApp.">
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Nos Services</span>
+      <h1>Vendre, vider, faire estimer</h1>
+      <p>Une succession, un déménagement, un grenier qui déborde ou un objet dont vous aimeriez connaître la valeur : nous vous accompagnons avec sérieux et discrétion, à {site.ville} et dans les environs.</p>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:40px">
+    <div class="services">
+      <article class="service">
+        <span class="num">01</span>
+        <h3>Vidage et débarras</h3>
+        <p class="muted">Nous vidons partiellement ou totalement maisons, appartements, caves et greniers. Un travail soigné et respectueux des lieux comme des souvenirs.</p>
+        <ul><li>Successions</li><li>Déménagements</li><li>Tris et désencombrement</li></ul>
+      </article>
+      <article class="service">
+        <span class="num">02</span>
+        <h3>Estimation et conseil</h3>
+        <p class="muted">Un regard d'expérience pour estimer vos objets anciens au juste prix du marché, et vous conseiller sur la meilleure façon de leur donner une suite.</p>
+        <ul><li>Mobilier et luminaires</li><li>Vaisselle et objets de curiosité</li><li>Avis sur photos</li></ul>
+      </article>
+      <article class="service">
+        <span class="num">03</span>
+        <h3>Achat et dépôt-vente</h3>
+        <p class="muted">Achat direct au comptant, ou dépôt-vente en boutique pour offrir une seconde vie à vos objets auprès de nos visiteurs.</p>
+        <ul><li>Achat au comptant</li><li>Dépôt-vente en magasin</li><li>Une seconde vie pour vos objets</li></ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Comment ça se passe</span>
+        <h2>Trois étapes, sans engagement</h2>
+      </div>
+      <ol class="steps">
+        <li><h3>Envoyez des photos</h3><p class="muted">Quelques photos des objets ou des pièces à vider, par le formulaire ou directement sur WhatsApp.</p></li>
+        <li><h3>Nous vous répondons</h3><p class="muted">Une première estimation ou une proposition d'intervention, et un rendez-vous sur place si besoin.</p></li>
+        <li><h3>Nous intervenons</h3><p class="muted">Achat, dépôt ou débarras à la date convenue, avec soin et en toute transparence.</p></li>
+      </ol>
+      <div class="actions" style="margin-top:44px">
+        <a class="btn btn-primary" href="contact.html#formulaire">Demander une estimation</a>
+        <a class="btn btn-olive" href={wa("Bonjour Mouna, j'aurais besoin d'un débarras / d'une estimation.")} target="_blank" rel="noopener">Écrire sur WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</Base>

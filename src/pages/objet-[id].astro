@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import Illustration from '../components/Illustration.astro';
+import ObjetCard from '../components/ObjetCard.astro';
+import { getCollection, render } from 'astro:content';
+import { site, categories } from '../site.config';
+
+export async function getStaticPaths() {
+  const objets = await getCollection('objets');
+  return objets.map((objet) => ({ params: { id: objet.id }, props: { objet, tous: objets } }));
+}
+
+const { objet, tous } = Astro.props;
+const d = objet.data;
+const cat = categories[d.categorie];
+const { Content } = await render(objet);
+const autres = tous.filter((o) => o.data.categorie === d.categorie && o.id !== objet.id && o.data.statut !== 'vendu').slice(0, 3);
+const resume = (objet.body ?? '').replace(/\s+/g, ' ').trim().slice(0, 150);
+const pageUrl = `${site.url}/objet-${objet.id}.html`;
+---
+<Base page="boutique" titre={d.titre} description={`${d.titre} : ${resume || cat.texte} À découvrir aux objets du Az'art, Alençon.`}>
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Fil d'Ariane"><a href="boutique.html">La Boutique</a> / <a href={`boutique.html#${d.categorie}`}>{cat.nom}</a></nav>
+    <article class="objet">
+      <div>
+        <div class="objet-media" id="media">
+          {d.photos.length ? <img id="main-photo" src={d.photos[0]} alt={d.titre} /> : <Illustration nom={d.illustration ?? cat.illustration} label={d.titre} />}
+          {d.statut !== 'disponible' && <span class={`badge ${d.statut}`}>{d.statut === 'vendu' ? 'Vendu' : 'Réservé'}</span>}
+        </div>
+        {d.photos.length > 1 && (
+          <div class="thumbs">
+            {d.photos.map((p, i) => <button type="button" data-src={p} aria-label={`Photo ${i + 1}`}><img src={p} alt="" loading="lazy" /></button>)}
+          </div>
+        )}
+      </div>
+      <div>
+        <span class="eyebrow">{cat.nom}</span>
+        <h1 style="font-size:clamp(2.2rem,5vw,3.4rem)">{d.titre}</h1>
+        <p class="price">{d.prix ? `${d.prix} €` : 'Prix sur demande'}</p>
+        <div class="muted"><Content /></div>
+        {(d.dimensions || d.epoque) && (
+          <dl class="facts">
+            {d.dimensions && <><dt>Dimensions</dt><dd>{d.dimensions}</dd></>}
+            {d.epoque && <><dt>Époque</dt><dd>{d.epoque}</dd></>}
+            <dt>Retrait</dt><dd>En boutique à {site.ville}</dd>
+          </dl>
+        )}
+        {d.statut === 'vendu' ? (
+          <div class="notice">Cette pièce a trouvé preneur. Nous pouvons vous prévenir si un objet semblable arrive.</div>
+        ) : (
+          <>
+            {d.emballageCadeau && (
+              <label class="check"><input type="checkbox" id="cadeau" /> <span>Emballage cadeau soigné, avec un mot personnalisé</span></label>
+            )}
+          </>
+        )}
+        <div class="actions" style="margin-top:20px">
+          <a class="btn btn-primary" id="wa-objet" target="_blank" rel="noopener"
+             data-base={d.statut === 'vendu'
+               ? `Bonjour Mouna, j'aimais beaucoup "${d.titre}" (vendu). Pouvez-vous me prévenir si une pièce semblable arrive ?`
+               : `Bonjour Mouna, je suis intéressé(e) par "${d.titre}" (${cat.nom}). Est-il toujours disponible ?`}
+             data-url={pageUrl} data-num={site.whatsapp}
+             href={`https://wa.me/${site.whatsapp}`}>
+            {d.statut === 'vendu' ? 'Être prévenu(e)' : 'Réserver sur WhatsApp'}
+          </a>
+          <a class="btn" href={`boutique.html#${d.categorie}`}>Retour à {cat.court}</a>
+        </div>
+      </div>
+    </article>
+
+    {autres.length > 0 && (
+      <section style="padding-bottom:80px">
+        <h2>Dans le même univers</h2>
+        <div class="grid">{autres.map((o) => <ObjetCard objet={o} />)}</div>
+      </section>
+    )}
+  </div>
+
+  <script is:inline>
+    (function () {
+      var a = document.getElementById('wa-objet');
+      var cadeau = document.getElementById('cadeau');
+      function maj() {
+        var t = a.dataset.base;
+        if (cadeau && cadeau.checked) t += " Je souhaite l'emballage cadeau avec un mot personnalisé.";
+        t += '\n' + a.dataset.url;
+        a.href = 'https://wa.me/' + a.dataset.num + '?text=' + encodeURIComponent(t);
+      }
+      if (cadeau) cadeau.addEventListener('change', maj);
+      maj();
+      var main = document.getElementById('main-photo');
+      document.querySelectorAll('.thumbs button').forEach(function (b) {
+        b.addEventListener('click', function () { if (main) main.src = b.dataset.src; });
+      });
+    })();
+  </script>
+</Base>

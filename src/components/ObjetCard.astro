@@ -1,0 +1,22 @@
+---
+import Illustration from './Illustration.astro';
+import { categories } from '../site.config';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props { objet: CollectionEntry<'objets'> }
+const { objet } = Astro.props;
+const d = objet.data;
+const cat = categories[d.categorie];
+const statutLabel = { disponible: '', reserve: 'Réservé', vendu: 'Vendu' }[d.statut];
+---
+<a class={`card ${d.statut === 'vendu' ? 'is-vendu' : ''}`} href={`objet-${objet.id}.html`} data-cat={d.categorie}>
+  <div class="card-media">
+    {d.photos.length ? <img src={d.photos[0]} alt={d.titre} loading="lazy" /> : <Illustration nom={d.illustration ?? cat.illustration} label={d.titre} />}
+    {statutLabel && <span class={`badge ${d.statut}`}>{statutLabel}</span>}
+  </div>
+  <div class="card-body">
+    <span class="card-cat">{cat.court}</span>
+    <h3>{d.titre}</h3>
+    {d.prix ? <span class="card-price">{d.prix} €</span> : <span class="card-price sur-demande">Prix sur demande</span>}
+  </div>
+</a>

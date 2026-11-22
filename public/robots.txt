@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://anasmba19.github.io/les-objets-du-azart/sitemap-index.xml

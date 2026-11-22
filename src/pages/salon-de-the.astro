@@ -1,0 +1,19 @@
+---
+// Page construite mais masquee : elle n'apparait ni dans le menu ni dans
+// Google tant que salonDeThe vaut false dans src/site.config.ts.
+import Base from '../layouts/Base.astro';
+import Illustration from '../components/Illustration.astro';
+import { site } from '../site.config';
+---
+<Base page="salon-de-the" titre="Le Salon de Thé" noindex={!site.salonDeThe} description="Le salon de thé des objets du Az'art à Alençon : thés parfumés, cafés de spécialité et pâtisseries locales, au milieu des trouvailles vintage.">
+  <section class="page-head">
+    <div class="wrap split" style="align-items:center">
+      <div>
+        <span class="eyebrow">La pause douceur</span>
+        <h1>Le Salon de Thé</h1>
+        <p class="quote" style="margin-top:20px">Prolongez l'expérience de la chine et accordez-vous un moment hors du temps. Installé confortablement au milieu de nos trouvailles vintage, dégustez une sélection de thés parfumés, de cafés de spécialité et de pâtisseries artisanales locales. Le petit plus ? Si la tasse ou le fauteuil dans lequel vous êtes installé vous plaît... vous pouvez repartir avec !</p>
+      </div>
+      <figure class="hero-art"><Illustration nom="theiere" label="Salon de thé" /></figure>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Illustration from '../components/Illustration.astro';
+import { getCollection } from 'astro:content';
+import { wa } from '../site.config';
+
+const photos = await getCollection('chezVous');
+---
+<Base page="nous-chez-vous" titre="Nous chez Vous" description="Les trouvailles des objets du Az'art installées chez nos clients : mobilier, miroirs, luminaires et mode vintage dans leur nouvelle vie.">
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Nous chez Vous</span>
+      <h1>Une nouvelle vie pour nos trouvailles</h1>
+      <p class="quote" style="margin-top:20px">Rien ne nous fait plus plaisir que de voir nos trouvailles installées dans leur nouvelle vie. Une table de ferme dans votre salle à manger, un miroir vintage dans votre entrée ou un vêtement rétro porté avec style... Cette page est la vôtre ! Merci pour vos partages et votre fidélité.</p>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:40px">
+    <div class="gallery">
+      {photos.map((p) => (
+        <figure>
+          {p.data.photo ? <img src={p.data.photo} alt={p.data.legende} loading="lazy" /> : <div class="ph"><Illustration nom={p.data.illustration ?? 'interieur'} label={p.data.legende} /></div>}
+          <figcaption>{p.data.legende}{p.data.prenom && <> · <strong>{p.data.prenom}{p.data.ville && `, ${p.data.ville}`}</strong></>}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:20px">
+    <div class="wrap panel" style="text-align:center">
+      <h2>Votre trouvaille a trouvé sa place&nbsp;?</h2>
+      <p class="muted" style="max-width:520px;margin:0 auto 24px">Envoyez-nous une photo sur WhatsApp avec votre prénom : nous l'ajouterons à la galerie avec votre accord.</p>
+      <a class="btn btn-primary" href={wa("Bonjour Mouna, voici une photo de ma trouvaille installée chez moi. Vous pouvez la publier avec mon prénom : ")} target="_blank" rel="noopener">Envoyer ma photo</a>
+    </div>
+  </section>
+</Base>

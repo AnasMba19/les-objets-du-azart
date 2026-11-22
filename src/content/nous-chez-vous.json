@@ -1,0 +1,7 @@
+[
+  { "id": "exemple-table", "illustration": "buffet", "legende": "Le buffet de ferme a trouvé sa place dans une cuisine de campagne", "exemple": true },
+  { "id": "exemple-miroir", "illustration": "miroir", "legende": "Un miroir doré pour agrandir une entrée", "exemple": true },
+  { "id": "exemple-lustre", "illustration": "lustre", "legende": "Le lustre à pampilles au-dessus d'une table de fête", "exemple": true },
+  { "id": "exemple-fauteuil", "illustration": "fauteuil", "legende": "Un fauteuil cabriolet, coin lecture assuré", "exemple": true },
+  { "id": "exemple-robe", "illustration": "robe", "legende": "La robe années 70, portée pour un mariage", "exemple": true }
+]

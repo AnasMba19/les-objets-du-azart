@@ -1,0 +1,138 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, wa } from '../site.config';
+
+const mapQuery = encodeURIComponent(site.adresse || `${site.nom} ${site.ville}`);
+---
+<Base page="contact" titre="Contact et présentation" description="Contactez Les objets du Az'art à Alençon : WhatsApp, téléphone, e-mail. Envoyez vos photos pour une estimation ou un débarras.">
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Contact et présentation</span>
+      <h1>Passez nous voir, ou écrivez-nous</h1>
+    </div>
+  </section>
+
+  <section class="wrap split" style="padding-bottom:60px">
+    <div>
+      <h2>Qui est derrière le comptoir&nbsp;?</h2>
+      <p class="muted">Derrière Les objets du Az'art, il y a Mouna et sa passion pour la chine. Des années à dénicher des pièces qui ont du caractère, à leur redonner de l'éclat et à les faire passer de main en main.</p>
+      <p class="muted">Avec le temps, l'envie de créer est venue s'ajouter à celle de chiner : bougies, abat-jours, plâtre et céramique sont nés à l'atelier. La boutique réunit aujourd'hui ces deux mondes, l'ancien et le fait main, au cœur d'Alençon.</p>
+    </div>
+    <div class="panel infos">
+      <dl>
+        <dt>Adresse</dt><dd>{site.adresse || `${site.ville} (adresse à venir)`}</dd>
+        <dt>WhatsApp</dt><dd><a href={wa('Bonjour Mouna,')} target="_blank" rel="noopener">{site.telephone}</a></dd>
+        <dt>Téléphone</dt><dd>{site.telephone}</dd>
+        <dt>E-mail</dt><dd>{site.email}</dd>
+        <dt>Horaires</dt>
+        <dd>{site.horaires.length ? site.horaires.map((h) => <div>{h.jours} : {h.heures}</div>) : 'Sur WhatsApp, nous vous répondons rapidement.'}</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="wrap split" style="padding-bottom:90px" id="formulaire">
+    <div class="panel">
+      <h2>Envoyer une demande</h2>
+      <p class="muted">Estimation, débarras, question sur un objet : joignez vos photos, votre message part vers WhatsApp avec elles.</p>
+      <form class="form" id="form" novalidate>
+        <div class="row2">
+          <div class="field"><label for="f-nom">Prénom et nom</label><input id="f-nom" name="nom" autocomplete="name" required /></div>
+          <div class="field"><label for="f-ville">Ville</label><input id="f-ville" name="ville" autocomplete="address-level2" /></div>
+        </div>
+        <div class="field">
+          <label for="f-type">Votre demande</label>
+          <select id="f-type" name="type">
+            <option>Estimation d'objets</option>
+            <option>Vidage et débarras</option>
+            <option>Achat ou dépôt-vente</option>
+            <option>Question sur un objet de la boutique</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="field"><label for="f-msg">Message</label><textarea id="f-msg" name="message" placeholder="Décrivez les objets ou les pièces à vider, l'adresse, vos disponibilités..." required></textarea></div>
+        <div class="field">
+          <label for="f-photos">Photos</label>
+          <label class="drop" id="drop" for="f-photos"><strong>Ajouter des photos</strong><br />meubles à estimer, pièces à débarrasser</label>
+          <input id="f-photos" type="file" accept="image/*" multiple hidden />
+          <div class="previews" id="previews"></div>
+        </div>
+        <button class="btn btn-primary" type="submit">Envoyer ma demande</button>
+        <div class="notice" id="retour" hidden></div>
+      </form>
+    </div>
+    <div>
+      {site.adresse ? (
+        <div class="map">
+          <iframe title="Plan d'accès" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}></iframe>
+        </div>
+      ) : (
+        <div class="map" style="display:grid;place-items:center;text-align:center;padding:24px">
+          <div><span class="eyebrow">Plan d'accès</span><p class="muted" style="margin:0">Le plan interactif s'affichera ici dès que l'adresse de la boutique sera renseignée.</p></div>
+        </div>
+      )}
+      <p style="margin-top:12px"><a class="muted" href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`} target="_blank" rel="noopener">Ouvrir dans Google Maps</a></p>
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ num: site.whatsapp, email: site.email }}>
+    (function () {
+      var form = document.getElementById('form');
+      var input = document.getElementById('f-photos');
+      var drop = document.getElementById('drop');
+      var previews = document.getElementById('previews');
+      var retour = document.getElementById('retour');
+      var files = [];
+
+      function render() {
+        previews.innerHTML = '';
+        files.forEach(function (f) {
+          var img = document.createElement('img');
+          img.src = URL.createObjectURL(f);
+          img.alt = f.name;
+          previews.appendChild(img);
+        });
+        drop.innerHTML = files.length
+          ? '<strong>' + files.length + ' photo' + (files.length > 1 ? 's' : '') + ' ajoutée' + (files.length > 1 ? 's' : '') + '</strong><br />toucher pour en ajouter'
+          : '<strong>Ajouter des photos</strong><br />meubles à estimer, pièces à débarrasser';
+      }
+      function add(list) {
+        Array.prototype.forEach.call(list, function (f) { if (f.type.indexOf('image/') === 0) files.push(f); });
+        render();
+      }
+      input.addEventListener('change', function () { add(input.files); input.value = ''; });
+      ['dragenter', 'dragover'].forEach(function (e) { drop.addEventListener(e, function (ev) { ev.preventDefault(); drop.classList.add('over'); }); });
+      ['dragleave', 'drop'].forEach(function (e) { drop.addEventListener(e, function (ev) { ev.preventDefault(); drop.classList.remove('over'); }); });
+      drop.addEventListener('drop', function (ev) { add(ev.dataTransfer.files); });
+
+      function show(html) { retour.innerHTML = html; retour.hidden = false; }
+
+      form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var d = new FormData(form);
+        var nom = (d.get('nom') || '').trim();
+        var msg = (d.get('message') || '').trim();
+        if (!nom || !msg) { show("Merci d'indiquer votre nom et votre message."); return; }
+        var texte = 'Bonjour Mouna,\n\nDemande : ' + d.get('type') + '\nDe : ' + nom +
+          (d.get('ville') ? ' (' + d.get('ville') + ')' : '') + '\n\n' + msg +
+          (files.length ? '\n\n' + files.length + ' photo(s) jointe(s).' : '');
+        var lien = 'https://wa.me/' + num + '?text=' + encodeURIComponent(texte);
+
+        var partage = files.length && navigator.canShare && navigator.canShare({ files: files });
+        if (partage) {
+          navigator.share({ files: files, text: texte }).then(function () {
+            show('Merci ! Votre demande et vos photos sont parties. Nous vous répondons rapidement.');
+          }).catch(function () { secours(lien); });
+        } else {
+          secours(lien);
+        }
+      });
+
+      function secours(lien) {
+        show('<strong>Dernière étape :</strong> ouvrez WhatsApp, votre message est déjà rédigé.' +
+          (files.length ? " Ajoutez-y vos photos avec le trombone avant d'envoyer." : '') +
+          '<div class="actions" style="margin-top:14px"><a class="btn btn-olive" href="' + lien + '" target="_blank" rel="noopener">Ouvrir WhatsApp</a></div>' +
+          '<p class="muted" style="margin:12px 0 0;font-size:.9rem">Pas de WhatsApp ? Écrivez à ' + email + '</p>');
+      }
+    })();
+  </script>
+</Base>

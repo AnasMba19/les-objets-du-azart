@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import ObjetCard from '../components/ObjetCard.astro';
+import { getCollection } from 'astro:content';
+import { categories, wa } from '../site.config';
+
+const ordre = { disponible: 0, reserve: 1, vendu: 2 };
+const objets = (await getCollection('objets')).sort(
+  (a, b) => ordre[a.data.statut] - ordre[b.data.statut] || b.data.ajoute.getTime() - a.data.ajoute.getTime(),
+);
+---
+<Base page="boutique" titre="La Boutique" description="La boutique en ligne des objets du Az'art : brocante, pièces d'exception, créations faites main et friperie vintage. Réservez par WhatsApp, retrait à Alençon.">
+  <section class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">La Boutique</span>
+      <h1>Chiner depuis chez vous</h1>
+      <p>Une pièce vous plaît ? Écrivez-nous sur WhatsApp depuis sa fiche : nous vous répondons pour la réserver, en parler ou organiser le retrait à Alençon.</p>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:80px">
+    <div class="filters" role="group" aria-label="Filtrer par univers">
+      <button class="chip" type="button" data-filter="tout" aria-pressed="true">Tout</button>
+      {Object.entries(categories).map(([id, c]) => (
+        <button class="chip" type="button" data-filter={id} aria-pressed="false">{c.nom}</button>
+      ))}
+    </div>
+    <div class="grid" id="grille">
+      {objets.map((o) => <ObjetCard objet={o} />)}
+    </div>
+    <div class="empty" id="vide" hidden>
+      <p>Pas de pièce en ligne dans cet univers pour le moment.</p>
+      <a class="btn btn-olive" href={wa("Bonjour Mouna, je cherche une pièce en particulier :")} target="_blank" rel="noopener">Dites-nous ce que vous cherchez</a>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      var chips = document.querySelectorAll('.chip');
+      var cards = document.querySelectorAll('#grille .card');
+      var vide = document.getElementById('vide');
+      function apply(f) {
+        var n = 0;
+        chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.dataset.filter === f)); });
+        cards.forEach(function (c) {
+          var show = f === 'tout' || c.dataset.cat === f;
+          c.hidden = !show;
+          if (show) n++;
+        });
+        vide.hidden = n > 0;
+      }
+      chips.forEach(function (c) {
+        c.addEventListener('click', function () {
+          apply(c.dataset.filter);
+          try { history.replaceState(null, '', c.dataset.filter === 'tout' ? location.pathname : '#' + c.dataset.filter); } catch (e) {}
+        });
+      });
+      function fromHash() {
+        var h = location.hash.slice(1);
+        apply(document.querySelector('.chip[data-filter="' + h + '"]') ? h : 'tout');
+      }
+      window.addEventListener('hashchange', fromHash);
+      fromHash();
+    })();
+  </script>
+</Base>

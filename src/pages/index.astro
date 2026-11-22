@@ -1,0 +1,105 @@
+---
+import Base from '../layouts/Base.astro';
+import Illustration from '../components/Illustration.astro';
+import ObjetCard from '../components/ObjetCard.astro';
+import { getCollection } from 'astro:content';
+import { site, categories, wa } from '../site.config';
+
+const objets = (await getCollection('objets'))
+  .filter((o) => o.data.statut !== 'vendu')
+  .sort((a, b) => b.data.ajoute.getTime() - a.data.ajoute.getTime())
+  .slice(0, 4);
+---
+<Base page="accueil" titre="Accueil" description="Brocante, créations artisanales et friperie au cœur d'Alençon. Mobilier, luminaires, vaisselle ancienne, pièces uniques. Débarras, estimation, achat et dépôt-vente.">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="reveal">
+        <span class="eyebrow">Au cœur d'Alençon</span>
+        <h1>Chaque objet a <em>une histoire</em> à raconter.</h1>
+        <p class="hero-quote">Parce que le hasard fait souvent bien les choses, la boutique Les objets du Az'art vous ouvre ses portes. Collectionneur, amateur de déco vintage ou simplement curieux, laissez-vous porter par le charme de l'ancien.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="boutique.html">Découvrir la boutique</a>
+          <a class="btn" href="services.html">Débarras et estimation</a>
+        </div>
+      </div>
+      <figure class="hero-art reveal" style="animation-delay:.15s">
+        <Illustration nom="interieur" label="La boutique" />
+        <figcaption>La boutique, à Alençon</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:20px">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Quatre univers</span>
+        <h2>Chiner à distance, comme en boutique</h2>
+        <p class="muted">La chine classique d'un côté, les créations de l'atelier de l'autre. Choisissez votre univers.</p>
+      </div>
+      <div class="univers">
+        {Object.entries(categories).map(([id, c]) => (
+          <a href={`boutique.html#${id}`}>
+            <Illustration nom={c.illustration} label={c.nom} />
+            <h3>{c.nom}</h3>
+            <p>{c.texte}</p>
+            <span class="go">Voir les pièces</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {objets.length > 0 && (
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <div class="section-head" style="display:flex;justify-content:space-between;align-items:end;max-width:none;gap:20px;flex-wrap:wrap">
+          <div>
+            <span class="eyebrow">Dernières trouvailles</span>
+            <h2 style="margin:0">Arrivées en boutique</h2>
+          </div>
+          <a class="btn" href="boutique.html">Tout voir</a>
+        </div>
+        <div class="grid">
+          {objets.map((o) => <ObjetCard objet={o} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap split">
+      <div class="panel">
+        <span class="eyebrow">Débarras, estimation, dépôt-vente</span>
+        <h2>Vous videz une maison ou faites de la place&nbsp;?</h2>
+        <p class="muted">Successions, déménagements, caves et greniers : nous intervenons avec soin et respect. Envoyez quelques photos, nous vous répondons rapidement.</p>
+        <div class="actions">
+          <a class="btn btn-olive" href="contact.html#formulaire">Envoyer des photos</a>
+          <a class="btn" href="services.html">Nos services</a>
+        </div>
+      </div>
+      <div class="panel avis">
+        <div>
+          <span class="eyebrow">Ils sont passés en boutique</span>
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <h3 style="margin-top:10px">Les avis de nos clients</h3>
+          <p class="muted" style="margin:0">Retrouvez ce que nos visiteurs disent de la boutique sur Google, et laissez le vôtre.</p>
+        </div>
+        <a class="btn" href={site.avisGoogle} target="_blank" rel="noopener">Voir les avis</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="panel" style="text-align:center;padding-block:56px">
+        <span class="eyebrow">Nous chez Vous</span>
+        <h2>Nos trouvailles, dans leur nouvelle vie</h2>
+        <p class="muted" style="max-width:560px;margin:0 auto 24px">Une table de ferme dans une salle à manger, un miroir dans une entrée, une robe rétro portée avec style. Envoyez-nous vos photos.</p>
+        <div class="actions" style="justify-content:center">
+          <a class="btn" href="nous-chez-vous.html">Voir la galerie</a>
+          <a class="btn btn-olive" href={wa("Bonjour Mouna, voici une photo de ma trouvaille chez moi !")} target="_blank" rel="noopener">Partager ma photo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
