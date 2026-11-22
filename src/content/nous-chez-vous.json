@@ -1,6 +1,37 @@
 [
-  { "id": "exemple-theiere", "photo": "images/nous-chez-vous/theiere-fenetre.webp", "illustration": "theiere", "legende": "Une théière chinée, sur le rebord d'une fenêtre", "exemple": true },
-  { "id": "exemple-lustre", "photo": "images/nous-chez-vous/lustre-salon.webp", "illustration": "lustre", "legende": "Un lustre ancien qui réchauffe tout un salon", "exemple": true },
-  { "id": "exemple-friperie", "photo": "images/nous-chez-vous/friperie.webp", "illustration": "robe", "legende": "Des pièces de friperie qui reprennent du service", "exemple": true },
-  { "id": "exemple-valises", "photo": "images/nous-chez-vous/valises.webp", "illustration": "malle", "legende": "Des valises anciennes devenues rangement", "exemple": true }
+ {
+  "id": "exemple-theiere",
+  "photo": "images/nous-chez-vous/theiere-fenetre.webp",
+  "illustration": "theiere",
+  "legende": "Une théière chinée, sur le rebord d'une fenêtre",
+  "exemple": true
+ },
+ {
+  "id": "exemple-lustre",
+  "photo": "images/nous-chez-vous/lustre-salon.webp",
+  "illustration": "lustre",
+  "legende": "Un lustre ancien qui réchauffe tout un salon",
+  "exemple": true
+ },
+ {
+  "id": "exemple-friperie",
+  "photo": "images/nous-chez-vous/friperie.webp",
+  "illustration": "robe",
+  "legende": "Des pièces de friperie qui reprennent du service",
+  "exemple": true
+ },
+ {
+  "id": "exemple-valises",
+  "photo": "images/nous-chez-vous/valises.webp",
+  "illustration": "malle",
+  "legende": "Des valises anciennes devenues rangement",
+  "exemple": true
+ },
+ {
+  "id": "exemple-salle",
+  "photo": "images/nous-chez-vous/salle-a-manger.webp",
+  "illustration": "buffet",
+  "legende": "Une salle à manger habillée de mobilier ancien",
+  "exemple": true
+ }
 ]

@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site, wa } from '../site.config';
+import { dispo } from '../lib/photo';
+const ph = (n: string) => `images/services/${n}.webp`;
 ---
 <Base page="services" titre="Débarras, estimation, achat et dépôt-vente" description="Vidage et débarras de maisons, caves et greniers à Alençon et alentours. Estimation d'objets anciens, achat au comptant et dépôt-vente. Devis sur photos par WhatsApp.">
   <section class="page-head">
@@ -14,19 +16,19 @@ import { site, wa } from '../site.config';
   <section class="wrap" style="padding-bottom:40px">
     <div class="services">
       <article class="service">
-        <span class="num">01</span>
+        {dispo(ph("debarras")) && <div class="ph"><img src={ph("debarras")} alt="" loading="lazy" /></div>}
         <h3>Vidage et débarras</h3>
         <p class="muted">Nous vidons partiellement ou totalement maisons, appartements, caves et greniers. Un travail soigné et respectueux des lieux comme des souvenirs.</p>
         <ul><li>Successions</li><li>Déménagements</li><li>Tris et désencombrement</li></ul>
       </article>
       <article class="service">
-        <span class="num">02</span>
+        {dispo(ph("estimation")) && <div class="ph"><img src={ph("estimation")} alt="" loading="lazy" /></div>}
         <h3>Estimation et conseil</h3>
         <p class="muted">Un regard d'expérience pour estimer vos objets anciens au juste prix du marché, et vous conseiller sur la meilleure façon de leur donner une suite.</p>
         <ul><li>Mobilier et luminaires</li><li>Vaisselle et objets de curiosité</li><li>Avis sur photos</li></ul>
       </article>
       <article class="service">
-        <span class="num">03</span>
+        {dispo(ph("depot")) && <div class="ph"><img src={ph("depot")} alt="" loading="lazy" /></div>}
         <h3>Achat et dépôt-vente</h3>
         <p class="muted">Achat direct au comptant, ou dépôt-vente en boutique pour offrir une seconde vie à vos objets auprès de nos visiteurs.</p>
         <ul><li>Achat au comptant</li><li>Dépôt-vente en magasin</li><li>Une seconde vie pour vos objets</li></ul>

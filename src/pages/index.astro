@@ -4,8 +4,15 @@ import Illustration from '../components/Illustration.astro';
 import ObjetCard from '../components/ObjetCard.astro';
 import { getCollection } from 'astro:content';
 import { site, categories, wa } from '../site.config';
-import { dispo } from '../lib/photo';
-const hero = 'images/nous-chez-vous/lustre-salon.webp';
+import { dispo, photosDispo } from '../lib/photo';
+const tous = await getCollection('objets');
+const vitrine = [
+  { src: 'images/objets/lustre-pampilles-laiton.webp', tag: 'Lustre', alt: 'Lustre ancien' },
+  { src: 'images/objets/service-the-porcelaine.webp', tag: 'Porcelaine', alt: 'Service à thé fleuri' },
+  { src: 'images/objets/fauteuil-anglais.webp', tag: 'Fauteuil', alt: 'Fauteuil ancien' },
+].filter((v) => dispo(v.src));
+const photoUnivers = (id: string) => photosDispo(tous.filter((o) => o.data.categorie === id).flatMap((o) => o.data.photos))[0];
+const photoVisite = 'images/nous-chez-vous/lustre-salon.webp';
 
 const objets = (await getCollection('objets'))
   .filter((o) => o.data.statut !== 'vendu')
@@ -16,38 +23,24 @@ const objets = (await getCollection('objets'))
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="reveal">
-        <span class="eyebrow">Brocante et art de vivre, Alençon</span>
-        <h1>Chaque objet a <em>une histoire</em> à raconter.</h1>
+        <span class="eyebrow">Brocante et art de vivre, à Alençon</span>
+        <h1>Chaque objet a une histoire à raconter.</h1>
         <p class="hero-quote">Parce que le hasard fait souvent bien les choses, la boutique Les objets du Az'art vous ouvre ses portes. Collectionneur, amateur de déco vintage ou simplement curieux, laissez-vous porter par le charme de l'ancien.</p>
         <div class="actions">
           <a class="btn btn-primary" href="boutique.html">Découvrir la boutique</a>
           <a class="btn" href="services.html">Débarras et estimation</a>
         </div>
       </div>
-      <figure class="hero-art reveal" style="animation-delay:.15s">
-        {dispo(hero) ? <img src={hero} alt="Lustre ancien dans un salon" /> : <Illustration nom="interieur" label="La boutique" />}
-        <figcaption>{dispo(hero) ? "Photo d'illustration" : "La boutique, à Alençon"}</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section class="section" style="padding-top:20px">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">Quatre univers</span>
-        <h2>Chiner à distance, comme en boutique</h2>
-        <p class="muted">La chine classique d'un côté, les créations de l'atelier de l'autre. Choisissez votre univers.</p>
-      </div>
-      <div class="univers">
-        {Object.entries(categories).map(([id, c]) => (
-          <a href={`boutique.html#${id}`}>
-            <Illustration nom={c.illustration} label={c.nom} />
-            <h3>{c.nom}</h3>
-            <p>{c.texte}</p>
-            <span class="go">Voir les pièces</span>
-          </a>
-        ))}
-      </div>
+      {vitrine.length === 3 ? (
+        <div class="vitrine" aria-label="Quelques pièces de la boutique">
+          {vitrine.map((v, i) => (
+            <figure class={`v${i + 1}`}><img src={v.src} alt={v.alt} /><span class="tag">{v.tag}</span></figure>
+          ))}
+          <span class="note">Photos d'illustration</span>
+        </div>
+      ) : (
+        <figure class="hero-art"><Illustration nom="interieur" label="La boutique" /></figure>
+      )}
     </div>
   </section>
 
@@ -56,8 +49,7 @@ const objets = (await getCollection('objets'))
       <div class="wrap">
         <div class="section-head" style="display:flex;justify-content:space-between;align-items:end;max-width:none;gap:20px;flex-wrap:wrap">
           <div>
-            <span class="eyebrow">Dernières trouvailles</span>
-            <h2 style="margin:0">Arrivées en boutique</h2>
+            <h2 style="margin:0">Derniers arrivages</h2>
           </div>
           <a class="btn" href="boutique.html">Tout voir</a>
         </div>
@@ -69,10 +61,48 @@ const objets = (await getCollection('objets'))
   )}
 
   <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Quatre façons de chiner</h2>
+        <p class="muted">La chine classique d'un côté, les créations de l'atelier de l'autre.</p>
+      </div>
+      <div class="univers-photo">
+        {Object.entries(categories).map(([id, c]) => {
+          const ph = photoUnivers(id);
+          return (
+            <a href={`boutique.html#${id}`}>
+              {ph ? <img src={ph} alt="" loading="lazy" /> : <Illustration nom={c.illustration} label={c.nom} />}
+              <div class="txt"><h3>{c.nom}</h3><p>{c.texte}</p></div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap visite">
+      <div class="info">
+        <span class="eyebrow">Passer à la boutique</span>
+        <h2>Venez chiner sur place</h2>
+        <p class="muted">Les plus belles trouvailles se découvrent en vrai. La boutique vous attend dans le quartier Lancrel.</p>
+        <dl>
+          <dt>Adresse</dt><dd>{site.adresse}, {site.codePostal} {site.ville}</dd>
+          {site.horaires.map((h) => <><dt>{h.jours}</dt><dd>{h.heures}</dd></>)}
+        </dl>
+        <div class="actions">
+          <a class="btn btn-primary" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.adresse + ', ' + site.codePostal + ' ' + site.ville)}`} target="_blank" rel="noopener">Itinéraire</a>
+          <a class="btn" href={wa("Bonjour Mouna, je souhaite passer à la boutique. Êtes-vous ouverte ")} target="_blank" rel="noopener">Prévenir de ma visite</a>
+        </div>
+      </div>
+      {dispo(photoVisite) && <div class="ph"><img src={photoVisite} alt="Lustre ancien dans un salon" loading="lazy" /></div>}
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
     <div class="wrap split">
       <div class="panel">
-        <span class="eyebrow">Débarras, estimation, dépôt-vente</span>
-        <h2>Vous videz une maison ou faites de la place&nbsp;?</h2>
+                <h2>Vous videz une maison ou faites de la place&nbsp;?</h2>
         <p class="muted">Successions, déménagements, caves et greniers : nous intervenons avec soin et respect. Envoyez quelques photos, nous vous répondons rapidement.</p>
         <div class="actions">
           <a class="btn btn-olive" href="contact.html#formulaire">Envoyer des photos</a>
@@ -81,8 +111,7 @@ const objets = (await getCollection('objets'))
       </div>
       <div class="panel avis">
         <div>
-          <span class="eyebrow">Ils sont passés en boutique</span>
-          <div class="stars" aria-hidden="true">★★★★★</div>
+                    <div class="stars" aria-hidden="true">★★★★★</div>
           <h3 style="margin-top:10px">Les avis de nos clients</h3>
           <p class="muted" style="margin:0">Retrouvez ce que nos visiteurs disent de la boutique sur Google, et laissez le vôtre.</p>
         </div>
@@ -94,8 +123,7 @@ const objets = (await getCollection('objets'))
   <section class="section" style="padding-top:0">
     <div class="wrap">
       <div class="panel" style="text-align:center;padding-block:56px">
-        <span class="eyebrow">Nous chez Vous</span>
-        <h2>Nos trouvailles, dans leur nouvelle vie</h2>
+                <h2>Nos trouvailles, dans leur nouvelle vie</h2>
         <p class="muted" style="max-width:560px;margin:0 auto 24px">Une table de ferme dans une salle à manger, un miroir dans une entrée, une robe rétro portée avec style. Envoyez-nous vos photos.</p>
         <div class="actions" style="justify-content:center">
           <a class="btn" href="nous-chez-vous.html">Voir la galerie</a>

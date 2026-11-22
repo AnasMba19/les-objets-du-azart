@@ -1,5 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
+import { dispo } from '../lib/photo';
+const ph = (n: string) => `images/alencon/${n}.webp`;
 ---
 <Base page="flaneries" titre="Flâneries à Alençon : patrimoine, marché et bonnes adresses" description="Que faire à Alençon ? Musée des Beaux-Arts et de la Dentelle, quartier Saint-Léonard, basilique Notre-Dame, Halle au Blé et marché : nos idées de balade autour de la brocante.">
   <section class="page-head">
@@ -7,6 +9,7 @@ import Base from '../layouts/Base.astro';
       <span class="eyebrow">Flâneries à Alençon</span>
       <h1>Une journée à Alençon, entre dentelle et vieilles pierres</h1>
       <p>Venir chiner chez nous, c'est aussi l'occasion de découvrir une ville d'art et d'histoire. Voici nos idées de balade, à quelques minutes de la boutique.</p>
+      {dispo(ph("point-alencon")) && <figure style="margin:28px 0 0;border-radius:6px;overflow:hidden;border:1px solid var(--line);max-height:380px"><img src={ph("point-alencon")} alt="Dentelle au point d'Alençon" style="width:100%;height:380px;object-fit:cover" /></figure>}
     </div>
   </section>
 
@@ -14,14 +17,17 @@ import Base from '../layouts/Base.astro';
     <h2>Patrimoine et culture</h2>
     <div class="lieux">
       <article class="lieu">
+        {dispo(ph("musee-dentelle")) && <div class="ph"><img src={ph("musee-dentelle")} alt="Musée des Beaux-Arts et de la Dentelle" loading="lazy" /></div>}
         <h3>Musée des Beaux-Arts et de la Dentelle</h3>
         <p>Peintures, arts graphiques et surtout le point d'Alençon, cette dentelle à l'aiguille inscrite au patrimoine culturel immatériel de l'Unesco. Un incontournable pour qui aime le travail fait main.</p>
       </article>
       <article class="lieu">
+        {dispo(ph("saint-leonard")) && <div class="ph"><img src={ph("saint-leonard")} alt="Le quartier Saint-Léonard" loading="lazy" /></div>}
         <h3>Le quartier Saint-Léonard</h3>
         <p>Ruelles pavées, maisons à pans de bois et façades anciennes autour de l'église Saint-Léonard : le cœur historique se découvre à pied, sans se presser.</p>
       </article>
       <article class="lieu">
+        {dispo(ph("notre-dame")) && <div class="ph"><img src={ph("notre-dame")} alt="La basilique Notre-Dame" loading="lazy" /></div>}
         <h3>La basilique Notre-Dame</h3>
         <p>Son porche gothique flamboyant est l'un des plus beaux de Normandie. C'est ici qu'a été baptisée sainte Thérèse, née à Alençon.</p>
       </article>
@@ -31,7 +37,8 @@ import Base from '../layouts/Base.astro';
       <h2>Pause gourmande</h2>
       <div class="split">
         <div class="lieu">
-          <h3>La Halle au Blé</h3>
+          {dispo(ph("halle-au-ble")) && <div class="ph"><img src={ph("halle-au-ble")} alt="La Halle au Blé" loading="lazy" /></div>}
+        <h3>La Halle au Blé</h3>
           <p>Une rotonde du XIXe siècle coiffée d'une coupole de verre, devenue un lieu d'expositions et d'événements. À voir, même en passant.</p>
         </div>
         <div class="lieu">

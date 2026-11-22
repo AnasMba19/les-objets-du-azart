@@ -116,87 +116,41 @@
   "rang": 0,
   "out": "images/alencon/musee-dentelle.webp",
   "ratio": "4:3",
-  "sujet": "Musee des Beaux-Arts et de la Dentelle",
-  "apercu": true
+  "sujet": "Musee des Beaux-Arts et de la Dentelle"
  },
  {
   "recherche": "Saint-Léonard Alençon",
-  "rang": 0,
+  "rang": 6,
   "out": "images/alencon/saint-leonard.webp",
   "ratio": "4:3",
-  "sujet": "Quartier Saint-Leonard",
-  "apercu": true
+  "sujet": "Quartier Saint-Leonard"
  },
  {
   "recherche": "Basilique Notre-Dame Alençon",
-  "rang": 0,
+  "rang": 3,
   "out": "images/alencon/notre-dame.webp",
   "ratio": "4:3",
-  "sujet": "Basilique Notre-Dame",
-  "apercu": true
+  "sujet": "Basilique Notre-Dame"
  },
  {
   "recherche": "Halle au blé Alençon",
-  "rang": 0,
+  "rang": 5,
   "out": "images/alencon/halle-au-ble.webp",
   "ratio": "4:3",
-  "sujet": "Halle au Ble",
-  "apercu": true
+  "sujet": "Halle au Ble"
  },
  {
   "recherche": "Point d'Alençon dentelle",
-  "rang": 0,
+  "rang": 5,
   "out": "images/alencon/point-alencon.webp",
   "ratio": "4:3",
-  "sujet": "Point d'Alencon",
-  "apercu": true
- },
- {
-  "recherche": "attic old furniture",
-  "rang": 0,
-  "out": "images/services/debarras.webp",
-  "ratio": "4:3",
-  "sujet": "Grenier a vider",
-  "apercu": true
- },
- {
-  "recherche": "magnifying glass antique",
-  "rang": 0,
-  "out": "images/services/estimation.webp",
-  "ratio": "4:3",
-  "sujet": "Estimation",
-  "apercu": true
- },
- {
-  "recherche": "antique shop furniture",
-  "rang": 0,
-  "out": "images/services/depot.webp",
-  "ratio": "4:3",
-  "sujet": "Depot-vente",
-  "apercu": true
- },
- {
-  "recherche": "plaster ceiling rose",
-  "rang": 0,
-  "out": "images/objets/medaillon-platre.webp",
-  "ratio": "1:1",
-  "sujet": "Medaillon en platre",
-  "apercu": true
+  "sujet": "Point d'Alencon"
  },
  {
   "recherche": "farmhouse dining room",
   "rang": 0,
   "out": "images/nous-chez-vous/salle-a-manger.webp",
   "ratio": "4:3",
-  "sujet": "Salle a manger",
-  "apercu": true
- },
- {
-  "recherche": "hallway console mirror",
-  "rang": 0,
-  "out": "images/nous-chez-vous/entree.webp",
-  "ratio": "4:3",
-  "sujet": "Entree",
-  "apercu": true
+  "sujet": "Salle a manger"
  }
 ]
